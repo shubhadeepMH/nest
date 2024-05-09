@@ -12,6 +12,13 @@ const PostCard = ({ name, title, content, likes, comments, image, uid, fun, date
         setVisible(newVisible);
     };
 
+    // Opening video i an dedicated tab
+    const handleVideoClick = () => {
+        if (image && image.includes('.mp4')) {
+          window.open(image, '_blank'); // Open video URL in a new tab
+        }
+      };
+
     const handleLike = async () => {
         let resp = await fetch("https://training-mocha.vercel.app/like-post", {
             method: 'POST',
@@ -86,7 +93,15 @@ const PostCard = ({ name, title, content, likes, comments, image, uid, fun, date
             </div>
 
             <p className="mb-2 text-left   text-gray-700">{content}</p>
-            {image && <img className='h-[16rem] w-[12rem]' src={image} />}
+            {
+                image && image.includes('png')|| image.includes('jpeg') || image.includes("jpg") &&   <img className='' src={image} />
+               
+            }
+            {
+                image && image.includes('mp4') &&   <video onClick={handleVideoClick} muted className='' controls autoPlay src={image} />
+               
+            }
+           
             <div className="flex justify-around items-center">
                 {/* <div className="flex items-center">
                     <LikeOutlined className="text-lg mr-1 cursor-pointer" onClick={handleLike} />

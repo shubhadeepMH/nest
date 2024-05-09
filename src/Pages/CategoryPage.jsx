@@ -52,6 +52,10 @@ function CategoryPage() {
         fetchPosts()
         
     }, )
+    let selectFile=(e)=>{
+        setFile(e.target.files[0])
+        console.log(file);
+    }
 
     let fetchPosts = async () => {
         try {
@@ -81,72 +85,92 @@ function CategoryPage() {
 
     const handleOk = async () => {
         if (name && content) {
-            try {
-                // Generate unique ID
-                const id = generateUniqueId();
-                setUid(id);
-                console.log('Unique ID:', id);
-
-                // Close modal if needed
-                setIsModalOpen(false);
-                let downloadUrl = ""
-                message.info('We Are Uploading Your Post Hold On...');
-
+          try {
+            // Generate unique ID
+            const id = generateUniqueId();
+            setUid(id);
+      
+            // Close modal if needed
+            setIsModalOpen(false);
+      
+            if (file) {
+              // Check if the selected file is an image or video (PNG or JPEG/mp4)
+              const isImageFile = file.type.startsWith('image/');
+              const isVideoFile = file.type.startsWith('video/mp4');
+              if (isImageFile||isVideoFile) {
+                message.info('Uploading your post. Please wait...');
+      
                 // Upload file to Firebase Storage
-                if (file) {
-
-                    const fileName = `${Date.now()}_${file.name}`;
-                    const storageRef = ref(storage, `images/${fileName}`);
-                    await uploadBytes(storageRef, file);
-
-                    // Get download URL for the uploaded image
-                    downloadUrl = await getDownloadURL(storageRef);
-                    setImageUrl(downloadUrl);
-                    console.log('Download URL:', downloadUrl);
-
-
-                    console.log(uid, imageUrl)
-
-                    // Restore initial state and show success message
-
-                }
-
-                // Upload data to API
-                const uploadResp = await fetch("https://training-mocha.vercel.app/add-post", {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        name,
-                        title,
-                        content,
-                        fileUrl: downloadUrl,
-                        category,
-                        board,
-                        uniqueId: id,
-                    }),
+                const fileName = `${Date.now()}_${file.name}`;
+                const storageRef = ref(storage, `images/${fileName}`);
+                await uploadBytes(storageRef, file);
+      
+                // Get download URL for the uploaded image
+                const downloadUrl = await getDownloadURL(storageRef);
+                setImageUrl(downloadUrl);
+      
+                // Upload data to API including file URL
+                const uploadResp = await fetch('https://training-mocha.vercel.app/add-post', {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify({
+                    name,
+                    title,
+                    content,
+                    fileUrl: downloadUrl,
+                    category,
+                    board,
+                    uniqueId: id
+                  })
                 });
                 const responseData = await uploadResp.json();
                 console.log('API Response:', responseData);
-
-                setName('Unknown');
-                setTitle('');
-                setContent('');
-                setFile(null);
-                setUid('');
-                setImageUrl('');
-                message.success('Post Uploaded Successfully');
-            } catch (error) {
-                console.error('Error:', error);
-                message.error('Failed to upload post. Please try again.');
+      
+                message.success('Post uploaded successfully');
+              } else {
+                // Selected file is not an image
+                message.error('Please select a PNG or JPEG image file.');
+              }
+            } else {
+              // Upload post without image file
+              const uploadResp = await fetch('https://training-mocha.vercel.app/add-post', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                  name,
+                  title,
+                  content,
+                  category,
+                  board,
+                  uniqueId: id
+                })
+              });
+              const responseData = await uploadResp.json();
+              console.log('API Response:', responseData);
+      
+              message.success('Post uploaded successfully');
             }
+      
+            // Reset form state
+            setName('Unknown');
+            setTitle('');
+            setContent('');
+            setFile(null);
+            setUid('');
+            setImageUrl('');
+          } catch (error) {
+            console.error('Error uploading post:', error);
+            message.error('Failed to upload post. Please try again.');
+          }
         } else {
-            message.error('Please enter Title and Content');
+          message.error('Please enter Name and Content');
         }
-
-
-    };
+      };
+      
 
     const handleCancel = () => {
         setName("Unknown")
@@ -178,7 +202,7 @@ function CategoryPage() {
                             <div className='p-2 '>
 
 
-                                <input onChange={(e) => setFile(e.target.files[0])} ref={inputRef} className='hidden' type='file' />
+                                <input accept=".png,.jpeg,.jpg,.mp4" onChange={selectFile} ref={inputRef} className='hidden' type='file' />
                                 <AiTwotoneFolderAdd onClick={() => inputRef.current.click()} className='cursor-pointer' size={30} color='blue' />
 
                             </div>
