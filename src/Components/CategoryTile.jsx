@@ -7,13 +7,13 @@ function CategorieTile({ name, image, path,boards }) {
   let navigate = useNavigate()
  
   return (
-    <div className='hover:scale-100 hover:rounded-md hover:shadow-sm'>
-    <div  className='bg-white cursor-pointer  hover:shadow-black p-4  flex items-center justify-between border-t-2 border-gray-300  '>
+    <div className='hover:scale-100 hover:rounded-md hover:shadow-sm w-[100%] '>
+    <div  className='bg-white cursor-pointer h-[14rem] md:h-[5rem]  hover:shadow-black p-4  flex items-center justify-between border-t-2 border-gray-300  '>
       <img className='h-14 w-14' src={image} alt='Category' /> {/* Category image */}
       <div className='flex flex-col items-center'>
-        <h2 className=' font-bold font-mono text-blue-500'>{name}</h2> {/* Category name */}
+        <h2 className=' text-[2rem] md:text-[1.2rem] md:font-bold font-extrabold font-mono text-blue-500'>{name}</h2> {/* Category name */}
         <div className='p-2'>
-          <p className='text-sm text-gray-500'>This is a placeholder text for the category description.</p> {/* Dummy text */}
+          <p className='text-[1.5rem] md:text-sm text-gray-500'>This is a placeholder text for the category description.</p> {/* Dummy text */}
         </div>
       </div>
       <div className='flex flex-col items-center '>
@@ -28,7 +28,7 @@ function CategorieTile({ name, image, path,boards }) {
                 let dataToSend = { categoryName:name, image, path , boardName:board.boardName}
                   return(
                     <div key={index}>
-                      <p onClick={() =>  navigate(`/category/${path}`, { state: dataToSend })} className='text-xs text-blue-800 font-sans underline-offset-1 cursor-pointer underline'>{board.boardName}</p>
+                      <p onClick={() =>  navigate(`/category/${path}`, { state: dataToSend })} className='text-[1rem] md:text-xs text-blue-800 font-sans underline-offset-1 cursor-pointer underline'>{board.boardName}</p>
                     </div>
                   )
               })
