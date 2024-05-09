@@ -177,6 +177,7 @@ function CategoryPage() {
         setTitle("")
         setContent("")
         setIsModalOpen(false);
+        setFile(null)
     };
     // File Uploading Prps
 
@@ -206,7 +207,7 @@ function CategoryPage() {
                                 <AiTwotoneFolderAdd onClick={() => inputRef.current.click()} className='cursor-pointer' size={30} color='blue' />
 
                             </div>
-                            <label className='font-bold text-gray-700 font-mono ml-3 '>Add File</label>
+                          { !file? <label className='font-bold text-gray-700 font-mono ml-3 '>Add File</label>:<span className='font-bold'>{file.name}</span> }
 
                         </div>
                     </Modal>
