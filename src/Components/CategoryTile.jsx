@@ -13,11 +13,11 @@ function CategorieTile({ name, image, path,boards }) {
       <div className='flex flex-col items-center'>
         <h2 className=' text-[2rem] md:text-[1.2rem] md:font-bold font-extrabold font-mono text-blue-500'>{name}</h2> {/* Category name */}
         <div className='p-2'>
-          <p className='text-[1.5rem] md:text-sm text-gray-500'>This is a placeholder text for the category description.</p> {/* Dummy text */}
+          <p className='text-[3rem] md:text-sm text-gray-500'>This is a placeholder text for the category description.</p> {/* Dummy text */}
         </div>
       </div>
       <div className='flex flex-col items-center '>
-        <h3 className='text-md text-center font-sans font-semibold border-b border-gray-300 pb-[.1rem]'>Boards</h3> {/* Boards heading */}
+        <h2 className='text-md text-center font-sans font-semibold border-b border-gray-300 pb-[.1rem]'>Boards</h2> {/* Boards heading */}
         <p className='text-md font-bold text-slate-600 text-center'>{boards.length}</p> {/* Dummy number */}
       </div>
     </div>
@@ -28,7 +28,7 @@ function CategorieTile({ name, image, path,boards }) {
                 let dataToSend = { categoryName:name, image, path , boardName:board.boardName}
                   return(
                     <div key={index}>
-                      <p onClick={() =>  navigate(`/category/${path}`, { state: dataToSend })} className='text-[1rem] md:text-xs text-blue-800 font-sans underline-offset-1 cursor-pointer underline'>{board.boardName}</p>
+                      <h2 onClick={() =>  navigate(`/category/${path}`, { state: dataToSend })} className='text-[2rem]  md:text-xs text-blue-800 font-sans underline-offset-1 cursor-pointer underline'>{board.boardName}</h2>
                     </div>
                   )
               })

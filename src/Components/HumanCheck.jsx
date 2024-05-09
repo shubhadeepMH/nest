@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Modal, Input, Button, message } from 'antd';
+import { Modal, Input, Button, message, ConfigProvider } from 'antd';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -60,24 +60,33 @@ const HumanCheck = () => {
     };
 
     return (
-        <div className="App">
-            <Modal title="Are you a human?" visible={isModalVisible} footer={null} onCancel={() => setIsModalVisible(false)}>
-                <div className="flex flex-col items-center">
-                    <div className="mb-4">
-                        Solve the following expression: <strong>{`${numbers.num1} ${operation} ${numbers.num2}`}</strong>
-                    </div>
-                    <Input
-                        type="number"
-                        value={userAnswer}
-                        onChange={(e) => setUserAnswer(e.target.value)}
-                        className="mb-4"
-                        placeholder="Your answer"
-                    />
-                    <Button type="primary" onClick={checkAnswer}>
-                        Submit
-                    </Button>
-                </div>
-            </Modal>
+        <div className="App w-[full] h-[100%] flex justify-center text-white ">
+       
+            <div
+  className=' h-[38rem] md:h-[20rem] w-[90%] bg-[#18366A] rounded-lg  sm:mt-[30rem] md:mt-[12rem] p-[5rem]'
+  
+>
+  <div className="flex flex-col items-center">
+  <p className='text-left font-bold text-[2rem]'>Verify ! Are You Human?</p>
+    <div className="mb-4">
+    
+     <span className='font-bold text-[1.5rem] '>Solve the following expression: </span>  <strong className='font-bold text-[1.6rem] '>{`${numbers.num1} ${operation} ${numbers.num2}`}</strong>
+    </div>
+    <Input
+    classNames='w-[8rem]'
+      type="number"
+      value={userAnswer}
+      onChange={(e) => setUserAnswer(e.target.value)}
+      className="mb-4"
+      placeholder="Your answer"
+    />
+    <Button type="primary" onClick={checkAnswer}>
+      Submit
+    </Button>
+  </div>
+</div>
+
+
         </div>
     );
 };
