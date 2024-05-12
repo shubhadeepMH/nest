@@ -109,7 +109,7 @@ const PostCard = ({ name, title, content, likes, comments, image, uid, fun, date
                 )}
             </p>
             {
-                image && (image.includes('png') || image.includes('jpeg') || image.includes("jpg")) && <img className='scale-75' src={image} />
+                image && (image.includes('png') || image.includes('jpeg') || image.includes("jpg")) && <img className='scale-y-90' src={image} />
 
             }
             {
