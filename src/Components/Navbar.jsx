@@ -13,8 +13,8 @@ function Navbar() {
           <h3 className='text-[.5rem]  md:text-lg font-bold text-gray-300 '>Express Your Thought Without Any Intervention</h3>
         </div>
         <div className='hidden md:flex gap-10 font-mono mt-2 content-center justify-center items-center'>
-          <p className='cursor-pointer text-white hover:text-green-300'>Home</p>
-          <p className='cursor-pointer  text-white hover:text-green-300'>Trending</p>
+          {/* <p className='cursor-pointer text-white hover:text-green-300'>Home</p>
+          <p className='cursor-pointer  text-white hover:text-green-300'>Trending</p> */}
         </div>
       </div>
     </div>

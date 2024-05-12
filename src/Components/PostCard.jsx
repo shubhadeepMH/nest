@@ -8,10 +8,16 @@ const PostCard = ({ name, title, content, likes, comments, image, uid, fun, date
     const [visible, setVisible] = useState(false);
     const [comment, setComment] = useState("");
     let [isReported, setIsReported] = useState(false)
+    const [showFullContent, setShowFullContent] = useState(false);
 
     const handleVisibleChange = (newVisible) => {
         setVisible(newVisible);
     };
+    // Toggle Content
+    const toggleContent = () => {
+        setShowFullContent(!showFullContent);
+    };
+    const truncatedText = content.length > 200 ? `${content.slice(0, 200)}` : content;
 
     // Opening video i an dedicated tab
     const handleVideoClick = () => {
@@ -82,19 +88,26 @@ const PostCard = ({ name, title, content, likes, comments, image, uid, fun, date
     );
 
     return (
-        <div className="bg-white p-4 rounded-lg shadow-md max-w-xl mx-auto my-2">
+        <div className="bg-white p-2 rounded-lg shadow-md max-w-xl mx-auto my-2">
             <div className="flex  justify-left items-center  gap-2 mb-2">
                 <UserOutlined className="text-lg" />
                 <p className="font-semibold ml-1">{name}</p>
                 <p className=" text-sm text-black">{date}</p>
             </div>
-            <div className='flex gap-2 items-center font-bold '>
+            <div className='flex gap-2 items-center font-bold px-4 '>
                 <p className="text-lg  font-bold text-left  text-[#18366A]">{title}</p>
 
                 <p className='bg-gray-400 text-md  px-1 rounded-sm text-white'>{`@${uid}`}</p>
             </div>
-
-            <p className="mb-2 text-left   text-gray-700">{content}</p>
+                    {/* Logic for Toggle COntent if content length greater than 200 */}
+            <p className="text-left px-4 text-gray-700" onClick={toggleContent}>
+                {showFullContent ? content : truncatedText}
+                {content.length > 200 && (
+                    <span style={{ cursor: 'pointer', color: 'blue' }} onClick={toggleContent}>
+                        {showFullContent ? ' (See less)' : ' ... See more'}
+                    </span>
+                )}
+            </p>
             {
                 image && (image.includes('png') || image.includes('jpeg') || image.includes("jpg")) && <img className='scale-75' src={image} />
 
