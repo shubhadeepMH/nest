@@ -7,6 +7,7 @@ import { IoMdSend } from "react-icons/io";
 const PostCard = ({ name, title, content, likes, comments, image, uid, fun, date }) => {
     const [visible, setVisible] = useState(false);
     const [comment, setComment] = useState("");
+    let [isReported, setIsReported] = useState(false)
 
     const handleVisibleChange = (newVisible) => {
         setVisible(newVisible);
@@ -15,11 +16,11 @@ const PostCard = ({ name, title, content, likes, comments, image, uid, fun, date
     // Opening video i an dedicated tab
     const handleVideoClick = () => {
         if (image && image.includes('.mp4')) {
-          window.open(image, '_blank'); // Open video URL in a new tab
+            window.open(image, '_blank'); // Open video URL in a new tab
         }
-      };
+    };
 
-    const handleLike = async () => {
+    const handleReport = async () => {
         let resp = await fetch("https://training-mocha.vercel.app/like-post", {
             method: 'POST',
             headers: {
@@ -29,6 +30,7 @@ const PostCard = ({ name, title, content, likes, comments, image, uid, fun, date
                 uniqueId: uid,
             }),
         })
+        setIsReported(true)
         resp = await resp.json()
         console.log(resp)
     }
@@ -80,7 +82,7 @@ const PostCard = ({ name, title, content, likes, comments, image, uid, fun, date
     );
 
     return (
-        <div className="bg-white p-4 rounded-lg shadow-md max-w-md mx-auto my-2">
+        <div className="bg-white p-4 rounded-lg shadow-md max-w-xl mx-auto my-2">
             <div className="flex  justify-left items-center  gap-2 mb-2">
                 <UserOutlined className="text-lg" />
                 <p className="font-semibold ml-1">{name}</p>
@@ -88,20 +90,20 @@ const PostCard = ({ name, title, content, likes, comments, image, uid, fun, date
             </div>
             <div className='flex gap-2 items-center font-bold '>
                 <p className="text-lg  font-bold text-left  text-[#18366A]">{title}</p>
-               
+
                 <p className='bg-gray-400 text-md  px-1 rounded-sm text-white'>{`@${uid}`}</p>
             </div>
 
             <p className="mb-2 text-left   text-gray-700">{content}</p>
             {
-                image && image.includes('png')|| image.includes('jpeg') || image.includes("jpg") &&   <img className='' src={image} />
-               
+                image && (image.includes('png') || image.includes('jpeg') || image.includes("jpg")) && <img className='scale-75' src={image} />
+
             }
             {
-                image && image.includes('mp4') &&   <video onClick={handleVideoClick} muted className='' controls autoPlay src={image} />
-               
+                image && image.includes('mp4') && <video onClick={handleVideoClick} muted className='' controls autoPlay src={image} />
+
             }
-           
+
             <div className="flex justify-around items-center">
                 {/* <div className="flex items-center">
                     <LikeOutlined className="text-lg mr-1 cursor-pointer" onClick={handleLike} />
@@ -118,7 +120,9 @@ const PostCard = ({ name, title, content, likes, comments, image, uid, fun, date
                     <CommentOutlined className="text-lg mr-1" />
                     <span className="">Comments</span>
                 </Popover>
-                <ShareAltOutlined className="text-lg text-blue-500" />
+                <span onClick={handleReport} className="hover:text-red-600 font-serif cursor-pointer">
+                    {isReported ? 'Reported' : 'report'}
+                </span>
             </div>
         </div>
     );
