@@ -26,7 +26,7 @@ function CategoryPage() {
     let inputRef = useRef()
 
     const [isModalOpen, setIsModalOpen] = useState(false)
-    let [name, setName] = useState("Unknown")
+    let [name, setName] = useState("Anonymous")
     let [title, setTitle] = useState()
     let [content, setContent] = useState()
     let [category, setCategory] = useState(state.categoryName)
@@ -156,7 +156,7 @@ function CategoryPage() {
             }
       
             // Reset form state
-            setName('Unknown');
+            setName('Anonymous');
             setTitle('');
             setContent('');
             setFile(null);
@@ -173,7 +173,7 @@ function CategoryPage() {
       
 
     const handleCancel = () => {
-        setName("Unknown")
+        setName("Anonymous")
         setTitle("")
         setContent("")
         setIsModalOpen(false);
