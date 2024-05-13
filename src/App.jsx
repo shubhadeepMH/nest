@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom"
 import Home from "./Pages/Home"
 import CategoryPage from "./Pages/CategoryPage"
 import HumanCheck from "./Components/HumanCheck"
+import AdminPanel from "./Pages/AdminPanel"
 function App() {
   
 
@@ -12,7 +13,8 @@ function App() {
       <Routes>
         <Route path='/' element={<HumanCheck/>} />
         <Route path='/home' element={<Home/>} />
-        <Route path="/category/:path" element={<CategoryPage/>} />
+        <Route path="/:path/:boardName" element={<CategoryPage/>} />
+        <Route path="/:path/:boardName/admin" element={<AdminPanel/>} />
       </Routes>
     </BrowserRouter>
    

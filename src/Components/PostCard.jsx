@@ -2,9 +2,10 @@ import { useState } from 'react';
 import { Popover, Input } from 'antd';
 import { UserOutlined, LikeOutlined, CommentOutlined, ShareAltOutlined } from '@ant-design/icons';
 import { IoMdSend } from "react-icons/io";
+import goldenBadge from '../assets/goldenBadge.png'
 // Import Ant Design styles
 
-const PostCard = ({ name, title, content, likes, comments, image, uid, fun, date }) => {
+const PostCard = ({ name, title, content, likes, comments, image, uid, fun, date,adminPost }) => {
     const [visible, setVisible] = useState(false);
     const [comment, setComment] = useState("");
     let [isReported, setIsReported] = useState(false)
@@ -27,7 +28,7 @@ const PostCard = ({ name, title, content, likes, comments, image, uid, fun, date
     };
 
     const handleReport = async () => {
-        let resp = await fetch("https://training-mocha.vercel.app/like-post", {
+        let resp = await fetch("https://training-mocha.vercel.app/report", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -38,7 +39,7 @@ const PostCard = ({ name, title, content, likes, comments, image, uid, fun, date
         })
         setIsReported(true)
         resp = await resp.json()
-        console.log(resp)
+       
     }
     const addComment = async () => {
         let resp = await fetch("https://training-mocha.vercel.app/comment", {
@@ -93,6 +94,10 @@ const PostCard = ({ name, title, content, likes, comments, image, uid, fun, date
                 <UserOutlined className="text-lg" />
                 <p className="font-semibold ml-1">{name}</p>
                 <p className=" text-sm text-black">{date}</p>
+              { adminPost && <div className='flex justify-center items-center '>
+                <img className='h-[2rem] w-[2rem]' src={goldenBadge}/>
+                <span className='font-bold text-lg text-[#18366A]'>@Admin</span>
+                </div>}
             </div>
             <div className='flex gap-2 items-center font-bold px-4 '>
                 <p className="text-lg  font-bold text-left  text-[#18366A]">{title}</p>

@@ -8,9 +8,9 @@ import { useParams, useLocation } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import app from '../firebase.js'
-import PostCard from '../Components/PostCard.jsx'
 import audio from '../assets/audio.wav'
 import formattedDateTime from '../Utils/DateFormatter.js'
+import AdminPostCard from '../Components/AdminPostCard.jsx';
 
 
 
@@ -22,19 +22,23 @@ function CategoryPage() {
 
 
   let param = useParams()
-  let { state } = useLocation()//Extracting Data getting from previous page
+  let { state, pathname } = useLocation()//Extracting Data getting from previous page
   const { TextArea } = Input;
   let inputRef = useRef()
+
+  let pathArray = pathname.split('/')
+
 
   const [isModalOpen, setIsModalOpen] = useState(false)
   let [name, setName] = useState("Unknown")
   let [title, setTitle] = useState()
   let [content, setContent] = useState()
-  let [category, setCategory] = useState(state.categoryName)
-  let [board, setBoard] = useState(state.boardName)
+  let [category, setCategory] = useState(pathArray[1])
+  let [board, setBoard] = useState(pathArray[2])
   let [file, setFile] = useState(null)
   let [uid, setUid] = useState(null)
   let [imageUrl, setImageUrl] = useState(null)
+
 
   // Get a reference to the storage service, which is used to create references in your storage bucket
 
@@ -61,14 +65,7 @@ function CategoryPage() {
   let fetchPosts = async () => {
     try {
 
-      let postResp = await fetch("https://training-mocha.vercel.app/posts", {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json' // Specify the content type
-        },
-        body: JSON.stringify({ board }) // Convert data to JSON format
-
-      })
+      let postResp = await fetch("https://training-mocha.vercel.app/reported-posts")
       postResp = await postResp.json()
       setPosts(postResp)
 
@@ -100,6 +97,8 @@ function CategoryPage() {
           const isVideoFile = file.type.startsWith('video/mp4');
           if (isImageFile || isVideoFile) {
             message.info('Uploading your post. Please wait...');
+            const audioPlay = new Audio(audio);
+            audioPlay.volume = 1.0
 
             // Upload file to Firebase Storage
             const fileName = `${Date.now()}_${file.name}`;
@@ -127,24 +126,25 @@ function CategoryPage() {
               })
             });
             const responseData = await uploadResp.json();
+
             // Playing Audio
-            const audioPlay = new Audio(audio);
-            audioPlay.volume = 1.0
+
             audioPlay.play()
-              .then(() => {
+              .then(() =>{ 
                 console.log('Audio played successfully')
                 message.success('Post uploaded successfully');
               })
               .catch(error => console.error('Error playing audio:', error));
 
-
-
+           
           } else {
             // Selected file is not an image
             message.error('Please select a PNG or JPEG image file.');
           }
         } else {
           // Upload post without image file
+          const audioPlay = new Audio(audio);
+          audioPlay.volume = 1.0
           const uploadResp = await fetch('https://training-mocha.vercel.app/add-post', {
             method: 'POST',
             headers: {
@@ -156,22 +156,22 @@ function CategoryPage() {
               content,
               category,
               board,
-              uniqueId: id
+              uniqueId: id,
+              adminPost: true
             })
           });
           const responseData = await uploadResp.json();
           console.log('API Response:', responseData);
           // Playing Audio
-          const audioPlay = new Audio(audio);
-          audioPlay.volume = 1.0
+
           audioPlay.play()
-            .then(() => {
+            .then(() =>{ 
               console.log('Audio played successfully')
-              message.success('Post uploaded successfully');
+            message.success('Post uploaded successfully');
             })
             .catch(error => console.error('Error playing audio:', error));
 
-
+         
         }
 
         // Reset form state
@@ -203,10 +203,11 @@ function CategoryPage() {
   return (
     <div className='md:px-[1rem]'>
       <Navbar />
-      <h2 className='text-md font-mono'>{`${state.categoryName} > `}<span className='font-mono text-black text-md'>{state.boardName}</span></h2>
+      <h2 className='text-md font-mono'>{`${pathArray[1]} > `}<span className='font-mono text-black text-md'>{pathArray[2]}</span></h2>
+      <h1 className='text-center font-bold text-[3rem]'>Hi i am @Admin</h1>
       <div className='w-full h-[13rem]'>
         <div className='flex flex-col p-2 m-auto text-center content-center items-center w-[20rem] md:w-[30rem] border-slate-500 border-2 flex-shrink hover:border-black'>
-          <h2 className='text-2xl font-mono font-bold mt-4'>Share Your Thoughts Or Any Update On{" " + state.categoryName}</h2> {/* Page title */}
+          <h2 className='text-2xl font-mono font-bold mt-4'>Announce Something Or Any Update On{" " + pathArray[1]}</h2> {/* Page title */}
           <div onClick={() => setIsModalOpen(true)} className='h-[3rem]  active:bg-black flex items-center justify-center border-gray-700 cursor-pointer w-[3rem] rounded-full bg-gray-700 active:scale-105 p-1'>
             <AiOutlinePlus className='text-4xl text-white' /> {/* Plus icon */}
           </div>
@@ -238,15 +239,16 @@ function CategoryPage() {
         </div>
       </div>
       <div className=''>
-        <h1 className='font-bold font-mono underline-offset-2 underline'>Explore </h1>
+        <h1 className='font-bold font-mono underline-offset-2 underline'>Reported Posts </h1>
         <div className=" ">
           {posts?.length > 0 && <div className='md:max-w-[40rem] w-[100%] border-green-200 border-2 m-auto text-center'>
             {
               posts?.length > 0 && posts.map((post, index) => {
                 let date = formattedDateTime(post.date)
-                return (<div key={index} className=''>
 
-                  <PostCard name={post.name} adminPost={post.adminPost} title={post.title} content={post.content} likes={post.likes} comments={post.comments} image={post.fileUrl} uid={post.uniqueId} fun={fetchPosts} date={date} />
+                return (<div className='' key={index}>
+
+                  <AdminPostCard postId={post._id} name={post.name} title={post.title} content={post.content} likes={post.likes} comments={post.comments} image={post.fileUrl} uid={post.uniqueId} fun={fetchPosts} date={date} />
                 </div>)
               })
             }

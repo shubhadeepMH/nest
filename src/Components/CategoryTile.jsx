@@ -26,9 +26,10 @@ function CategorieTile({ name, image, path, boards, tagLine }) {
           boards.map((board, index) => {
             {/* Sending Data To Next Page */ }
             let dataToSend = { categoryName: name, image, path, boardName: board.boardName }
+           let  boardPath= board.boardPath
             return (
               <div key={index} className=''>
-                <h2 onClick={() => navigate(`/category/${path}`, { state: dataToSend })} className='text-lg  md:text-sm text-blue-800 font-sans underline-offset-1 cursor-pointer underline'>{board.boardName}</h2>
+                <h2 onClick={() => navigate(`/${path}/${boardPath}`, { state: dataToSend })} className='text-lg  md:text-sm text-blue-800 font-sans underline-offset-1 cursor-pointer underline'>{board.boardName}</h2>
               </div>
             )
           })
