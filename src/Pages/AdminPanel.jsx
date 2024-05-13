@@ -43,7 +43,7 @@ function CategoryPage() {
 
   // Get a reference to the storage service, which is used to create references in your storage bucket
 
-
+    // console.log(category,board)
   // Create a storage reference from our storage service
 
   // Get a non-default Storage bucket
@@ -111,6 +111,7 @@ function CategoryPage() {
             setImageUrl(downloadUrl);
 
             // Upload data to API including file URL
+            console.log(category,board)
             const uploadResp = await fetch('https://training-mocha.vercel.app/add-post', {
               method: 'POST',
               headers: {
@@ -144,6 +145,7 @@ function CategoryPage() {
           }
         } else {
           // Upload post without image file
+          console.log(category,board)
           const audioPlay = new Audio(audio);
           audioPlay.volume = 1.0
           const uploadResp = await fetch('https://training-mocha.vercel.app/add-post', {
