@@ -4,7 +4,7 @@ import { Modal, Input, message } from "antd";
 import Navbar from '../Components/Navbar';
 import { UploadOutlined } from '@ant-design/icons';
 import { AiTwotoneFolderAdd } from "react-icons/ai";
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams, useLocation,useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import app from '../firebase.js'
@@ -22,9 +22,11 @@ function CategoryPage() {
 
 
   let param = useParams()
-  let { state } = useLocation()//Extracting Data getting from previous page
+  let { state ,pathname} = useLocation()//Extracting Data getting from previous page
   const { TextArea } = Input;
   let inputRef = useRef()
+  let navigate=useNavigate()
+  // console.log(pathname)
 
   const [isModalOpen, setIsModalOpen] = useState(false)
   let [name, setName] = useState("Unknown")
@@ -204,6 +206,7 @@ function CategoryPage() {
     <div className='md:px-[1rem]'>
       <Navbar />
       <h2 className='text-md font-mono'>{`${state.categoryName} > `}<span className='font-mono text-black text-md'>{state.boardName}</span></h2>
+      <h1 className='font-bold text-[2rem] cursor-pointer ' onClick={()=>navigate(`${pathname}/admin`)}>Go to  admin</h1>
       <div className='w-full h-[13rem]'>
         <div className='flex flex-col p-2 m-auto text-center content-center items-center w-[20rem] md:w-[30rem] border-slate-500 border-2 flex-shrink hover:border-black'>
           <h2 className='text-2xl font-mono font-bold mt-4'>Share Your Thoughts Or Any Update On{" " + state.categoryName}</h2> {/* Page title */}
