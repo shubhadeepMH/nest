@@ -27,14 +27,15 @@ function CategoryPage() {
   let inputRef = useRef()
 
   let pathArray = pathname.split('/')
+  // console.log(state)
 
 
   const [isModalOpen, setIsModalOpen] = useState(false)
   let [name, setName] = useState("Unknown")
   let [title, setTitle] = useState()
   let [content, setContent] = useState()
-  let [category, setCategory] = useState(pathArray[1])
-  let [board, setBoard] = useState(pathArray[2])
+  let [category, setCategory] = useState(state.categoryName)
+  let [board, setBoard] = useState(state.boardName)
   let [file, setFile] = useState(null)
   let [uid, setUid] = useState(null)
   let [imageUrl, setImageUrl] = useState(null)
