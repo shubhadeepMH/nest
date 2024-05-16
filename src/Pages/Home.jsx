@@ -8,7 +8,7 @@ import ChatComponent from '../Components/ChatComponent';
 
 function Home() {
     return (
-        <div className=' bg-gradient-to-r to-blue-100 from-white'>
+        <div className=' bg-gradient-to-r from-[#1b98e0] to-[#c1ccdf]'>
             <div className='md:px-[1rem] h-[127rem]  '>
                 <Navbar />
                 <Note />
@@ -17,7 +17,7 @@ function Home() {
                 <div className='flex justify-center '>
                     {/* category box */}
                     <div className={`w-full md:w-[60rem]  rounded-md shadow-lg shadow-black }`}>
-                        <div className='bg-slate-400 w-full h-[3rem] p-4 md:rounded-t-md'>
+                        <div className='bg-black text-white w-full h-[3rem] p-4 md:rounded-t-md'>
                             <h2 className='font-bold font-serif'>Categories</h2>
                         </div>
 
@@ -31,6 +31,8 @@ function Home() {
                                     path={category.path}
                                     boards={category.boards}
                                     tagLine={category.tagLine}
+                                    categoryIndex={index}
+                                    categoryLength={categories.length}
                                 />
                             ))}
                         </div>

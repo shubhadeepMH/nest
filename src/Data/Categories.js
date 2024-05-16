@@ -148,11 +148,23 @@ const categories = [
         ]
 
     },
-    // {
-    //     category: "Entertainment",
-    //     path: "entertainment",
-    //     image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLTvv-4C4vzw6E0fiThT93kTa-hP1EUHILsYPEtpFIUw&s'
-    // },
+    {
+        category: "Warning",
+        path: "warning",
+        image: 'https://t3.ftcdn.net/jpg/00/85/33/26/360_F_85332688_wUZjugb65K0Qj2lDqyeVgk60tQMf5xIr.jpg',
+        tagLine:"3rdoor is not responsible for any type of leaks and datas uploaded here",
+        boards: [
+
+            {
+                boardName: "Marketplace",
+                boardPath: "marketplace"
+            },
+            {
+                boardName: "Datas",
+                boardPath: "datas"
+            },
+        ]
+    },
     // {
     //     category: "Technology & Science",
     //     path: "technology-science",

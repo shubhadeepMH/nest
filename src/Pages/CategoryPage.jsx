@@ -27,7 +27,7 @@ function CategoryPage() {
   let inputRef = useRef()
   let navigate=useNavigate()
   // console.log(state);
-  let dataToSend = { categoryName: state.categoryName, boardName: state.boardName }
+  let dataToSend = { categoryName: state.categoryName, boardName: state.boardName, tagLine:state.tagLine }
   // console.log(dataToSend)
   // console.log(pathname)
 
@@ -37,6 +37,7 @@ function CategoryPage() {
   let [content, setContent] = useState()
   let [category, setCategory] = useState(state.categoryName)
   let [board, setBoard] = useState(state.boardName)
+  let [tagLine, setTagLine] = useState(state.tagLine)
   let [file, setFile] = useState(null)
   let [uid, setUid] = useState(null)
   let [imageUrl, setImageUrl] = useState(null)
@@ -214,7 +215,7 @@ function CategoryPage() {
       </div>
       <div className='w-full h-[13rem]'>
         <div className='flex flex-col p-2 m-auto text-center content-center items-center w-[20rem] md:w-[30rem] border-slate-500 border-2 flex-shrink hover:border-black'>
-          <h2 className='text-2xl font-mono font-bold mt-4'>Share Your Thoughts Or Any Update On{" " + state.categoryName}</h2> {/* Page title */}
+          <h2 className='text-2xl font-mono font-bold mt-4'>{tagLine}</h2> {/* Page title */}
           <div onClick={() => setIsModalOpen(true)} className='h-[3rem]  active:bg-black flex items-center justify-center border-gray-700 cursor-pointer w-[3rem] rounded-full bg-gray-700 active:scale-105 p-1'>
             <AiOutlinePlus className='text-4xl text-white' /> {/* Plus icon */}
           </div>

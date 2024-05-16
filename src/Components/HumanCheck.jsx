@@ -73,11 +73,11 @@ const HumanCheck = () => {
      <span className='font-bold text-[1.5rem] '>Solve the following expression: </span>  <strong className='font-bold text-[1.6rem] '>{`${numbers.num1} ${operation} ${numbers.num2}`}</strong>
     </div>
     <Input
-    classNames='w-[8rem]'
+    classNames='w-3/4 h-12 px-4 rounded-full border-none'
       type="number"
       value={userAnswer}
       onChange={(e) => setUserAnswer(e.target.value)}
-      className="mb-4"
+     
       placeholder="Your answer"
     />
     <Button type="primary" onClick={checkAnswer}>
