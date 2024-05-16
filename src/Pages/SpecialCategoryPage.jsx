@@ -157,7 +157,7 @@ function CategoryPage() {
   };
 
   const handleWarningModalCancel = () => {
-    navigate('/');
+    navigate('/home');
   };
 
   return (
@@ -205,8 +205,8 @@ function CategoryPage() {
         </div>
       </div>
       <Modal title="Warning" open={isWarningModalOpen} onOk={handleWarningModalOk} onCancel={handleWarningModalCancel} closable={false} footer={null}>
-        <p>All the posts uploaded here are not responsible by 3rdoor. Please consider going inside at your own risk.</p>
-        <div className='flex justify-end gap-2'>
+        <p className='text-red-400 font-bold text-lg'>All the posts uploaded here are not responsible by 3rdoor. Please consider going inside at your own risk.</p>
+        <div className='flex justify-end gap-2 mt-3'>
           <button onClick={handleWarningModalOk} className='bg-blue-500 text-white py-2 px-4 rounded'>YES, I AGREE AND I ACCEPT ALL RISK ON MY OWN</button>
           <button onClick={handleWarningModalCancel} className='bg-red-500 text-white py-2 px-4 rounded'>NO, TAKE ME BACK TO HOMEPAGE</button>
         </div>

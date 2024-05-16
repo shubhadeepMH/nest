@@ -3,7 +3,7 @@ import { Modal, Input, Button, message, ConfigProvider } from 'antd';
 import { useNavigate } from 'react-router-dom';
 
 
-const getRandomNumber = () => Math.floor(Math.random() * 30) + 1;
+const getRandomNumber = () => Math.floor(Math.random() * 20) + 1;
 
 const getOperation = () => {
     const operations = ['+', '-'];
@@ -72,15 +72,15 @@ const HumanCheck = () => {
     
      <span className='font-bold text-[1.5rem] '>Solve the following expression: </span>  <strong className='font-bold text-[1.6rem] '>{`${numbers.num1} ${operation} ${numbers.num2}`}</strong>
     </div>
-    <Input
-    classNames='w-3/4 h-12 px-4 rounded-full border-none'
+    <input
+    className='w-1/4 h-12 px-4 text-black rounded-full border-none '
       type="number"
       value={userAnswer}
       onChange={(e) => setUserAnswer(e.target.value)}
      
       placeholder="Your answer"
     />
-    <Button type="primary" onClick={checkAnswer}>
+    <Button className='px-3 mt-4' type="primary" onClick={checkAnswer}>
       Submit
     </Button>
   </div>
