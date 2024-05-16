@@ -40,7 +40,7 @@ function Home() {
 
                 </div>
                  {/* Live Chat Section */}
-                 <div className=' w-[50%] m-auto text-center '>
+                 <div className=' w-[70%] m-auto text-center'>
                     <ChatComponent/>
                     </div>
 
