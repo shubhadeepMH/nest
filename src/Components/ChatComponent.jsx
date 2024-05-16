@@ -67,8 +67,8 @@ function ChatComponent() {
   };
 
   return (
-    <div className="bg-gray-300 h-[40rem] rounded-t-md rounded-b-md relative mt-[3rem]">
-      <header className="bg-black text-white text-center rounded-t-md py-4">
+    <div className="bg-gray-600 shadow-md shadow-white h-[40rem] rounded-t-md rounded-b-md relative mt-[3rem]">
+      <header className="bg-gray-600 text-white text-center rounded-t-md py-4">
         <h2 className='font-mono font-bold text-lg text-white'>3rdoor.Activity</h2>
         <h3>Don't trust Anyone here</h3>
         <input

@@ -12,8 +12,8 @@ function App() {
     <>
     <BrowserRouter>
       <Routes>
-        <Route path='/' element={<HumanCheck/>} />
-        <Route path='/home' element={<Home/>} />
+       
+        <Route path='/' element={<Home/>} />
         <Route path="/:path/:boardName" element={<CategoryPage/>} />
         <Route path="/:path/:boardName/admin" element={<AdminPanel/>} />
         <Route path="/special/:path/:boardName" element={<SpecialCategoryPage/>} />

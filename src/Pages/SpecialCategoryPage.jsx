@@ -157,7 +157,7 @@ function CategoryPage() {
   };
 
   const handleWarningModalCancel = () => {
-    navigate('/home');
+    navigate('/');
   };
 
   return (

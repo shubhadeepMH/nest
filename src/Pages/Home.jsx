@@ -8,7 +8,7 @@ import ChatComponent from '../Components/ChatComponent';
 
 function Home() {
     return (
-        <div className=' bg-gradient-to-r from-[#1b98e0] to-[#c1ccdf]'>
+        <div className=' bg-gradient-to-r bg-black'>
             <div className='md:px-[1rem] h-[127rem]  '>
                 <Navbar />
                 <Note />
