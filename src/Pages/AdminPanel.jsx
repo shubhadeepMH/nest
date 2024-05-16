@@ -27,7 +27,7 @@ function CategoryPage() {
   let inputRef = useRef()
 
   let pathArray = pathname.split('/')
-  // console.log(state)
+ 
 
 
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -60,7 +60,7 @@ function CategoryPage() {
   },)
   let selectFile = (e) => {
     setFile(e.target.files[0])
-    console.log(file);
+   
   }
 
   let fetchPosts = async () => {
@@ -133,7 +133,7 @@ function CategoryPage() {
 
             audioPlay.play()
               .then(() =>{ 
-                console.log('Audio played successfully')
+             
                 message.success('Post uploaded successfully');
               })
               .catch(error => console.error('Error playing audio:', error));
@@ -145,7 +145,7 @@ function CategoryPage() {
           }
         } else {
           // Upload post without image file
-          console.log(category,board)
+         
           const audioPlay = new Audio(audio);
           audioPlay.volume = 1.0
           const uploadResp = await fetch('https://training-mocha.vercel.app/add-post', {
@@ -164,12 +164,12 @@ function CategoryPage() {
             })
           });
           const responseData = await uploadResp.json();
-          console.log('API Response:', responseData);
+       
           // Playing Audio
 
           audioPlay.play()
             .then(() =>{ 
-              console.log('Audio played successfully')
+           
             message.success('Post uploaded successfully');
             })
             .catch(error => console.error('Error playing audio:', error));

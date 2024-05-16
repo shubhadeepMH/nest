@@ -54,7 +54,7 @@ const PostCard = ({ name, title, content, likes, comments, image, uid, fun, date
         })
         setComment("")
         resp = await resp.json()
-        console.log(resp)
+      
 
     }
 

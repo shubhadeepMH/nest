@@ -60,7 +60,7 @@ function CategoryPage() {
   },)
   let selectFile = (e) => {
     setFile(e.target.files[0])
-    console.log(file);
+    
   }
 
   let fetchPosts = async () => {
@@ -78,7 +78,7 @@ function CategoryPage() {
       setPosts(postResp)
 
     } catch (error) {
-      console.log(error);
+     
     }
   }
   // Generating UniqueId
@@ -137,7 +137,6 @@ function CategoryPage() {
             audioPlay.volume = 1.0
             audioPlay.play()
               .then(() => {
-                console.log('Audio played successfully')
                 message.success('Post uploaded successfully');
               })
               .catch(error => console.error('Error playing audio:', error));
@@ -165,13 +164,13 @@ function CategoryPage() {
             })
           });
           const responseData = await uploadResp.json();
-          console.log('API Response:', responseData);
+       
           // Playing Audio
           const audioPlay = new Audio(audio);
           audioPlay.volume = 1.0
           audioPlay.play()
             .then(() => {
-              console.log('Audio played successfully')
+              
               message.success('Post uploaded successfully');
             })
             .catch(error => console.error('Error playing audio:', error));

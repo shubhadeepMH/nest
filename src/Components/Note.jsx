@@ -8,7 +8,7 @@ function Note() {
     const handlePopUp=()=>{
         
         setVisible(false)
-        console.log(visible);
+       
     }
   return (
     <>
