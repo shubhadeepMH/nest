@@ -4,6 +4,7 @@ import Note from '../Components/Note';
 import { categories } from '../Data/Categories';
 import CategoryTile from '../Components/CategoryTile';
 import Footer from '../Components/Footer';
+import ChatComponent from '../Components/ChatComponent';
 
 function Home() {
     return (
@@ -34,8 +35,14 @@ function Home() {
                             ))}
                         </div>
                     </div>
+                   
+                    
 
                 </div>
+                 {/* Live Chat Section */}
+                 <div className=' w-[50%] m-auto text-center '>
+                    <ChatComponent/>
+                    </div>
 
 
             </div>

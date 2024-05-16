@@ -209,7 +209,10 @@ function CategoryPage() {
     <div className='md:px-[1rem]'>
       <Navbar />
       <h2 className='text-md font-mono'>{`${state.categoryName} > `}<span className='font-mono text-black text-md'>{state.boardName}</span></h2>
-      <h1 className='font-bold text-[2rem] cursor-pointer ' onClick={()=>navigate(`${pathname}/admin`,{state:dataToSend})}>Go to  admin</h1>
+      <div onClick={()=>navigate(`${pathname}/admin`,{state:dataToSend})} className='h-[2rem] w-[2rem] rounded-full absolute top-1 right-1 '>
+
+      
+      </div>
       <div className='w-full h-[13rem]'>
         <div className='flex flex-col p-2 m-auto text-center content-center items-center w-[20rem] md:w-[30rem] border-slate-500 border-2 flex-shrink hover:border-black'>
           <h2 className='text-2xl font-mono font-bold mt-4'>Share Your Thoughts Or Any Update On{" " + state.categoryName}</h2> {/* Page title */}
