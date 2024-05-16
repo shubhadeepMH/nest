@@ -7,8 +7,8 @@ function CategorieTile({ name, image, path, boards, tagLine }) {
   let navigate = useNavigate()
 
   return (
-    <div className='hover:scale-100 hover:rounded-md hover:shadow-sm w-[100%] '>
-      <div className='bg-white cursor-pointer h-[14rem] md:h-[5rem]  hover:shadow-black p-4  flex items-center justify-between border-t-2 border-gray-300  '>
+    <div className='hover:scale-100 hover:rounded-md hover:shadow-sm w-[100%] bg-gradient-to-r to-blue-100 from-white'>
+      <div className='bg-gradient-to-r to-blue-100 from-white cursor-pointer h-[14rem] md:h-[5rem]  hover:shadow-black p-4  flex items-center justify-between border-t-2 border-gray-300  '>
         <img className='h-14 w-14' src={image} alt='Category' /> {/* Category image */}
         <div className='flex flex-col items-center'>
           <h2 className=' text-[2rem] md:text-[1.2rem] md:font-bold font-extrabold font-mono text-blue-500'>{name}</h2> {/* Category name */}

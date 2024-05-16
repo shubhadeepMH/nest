@@ -9,6 +9,7 @@ function ChatComponent() {
   const [userName, setUserName] = useState('');
   const db = getDatabase(app);
   const messagesEndRef = useRef(null);
+  const hasSentMessage = useRef(false); // Track if the user has sent a message
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -20,19 +21,18 @@ function ChatComponent() {
         date: Date.now(),
         user: userName
       });
+      hasSentMessage.current = true; // Set to true when a message is sent
+      setMessageInput('');
     } else {
       antdMessage.info("Please set your temporary user Name");
     }
-
-    // Clear message input
-    setMessageInput('');
   };
 
   useEffect(() => {
-    let isMounted = true; // Flag to track if component is mounted
+    let isMounted = true;
     const dbRef = ref(db, 'messages');
     const unsubscribe = onValue(dbRef, (snapshot) => {
-      if (isMounted) { // Only update state if component is mounted
+      if (isMounted) {
         const data = snapshot.val();
         if (data) {
           const formattedData = Object.values(data);
@@ -43,19 +43,20 @@ function ChatComponent() {
       }
     });
 
-    // Clean up the listener on component unmount
     return () => {
-      isMounted = false; // Set the flag to false on unmount
+      isMounted = false;
       unsubscribe();
     };
   }, [db]);
 
   useEffect(() => {
-    // Scroll to bottom when messages change
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    if (hasSentMessage.current) {
+      if (messagesEndRef.current) {
+        messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+      }
+      hasSentMessage.current = false; // Reset the flag after scrolling
     }
-  }, [messageInput]);
+  }, [messages]);
 
   const handleChange = (event) => {
     setMessageInput(event.target.value);
@@ -88,25 +89,25 @@ function ChatComponent() {
           ))}
           <div ref={messagesEndRef} />
         </ul>
-
-        <form id="message-form" onSubmit={handleSubmit} className="flex absolute bottom-0 rounded-b-md right-[.1rem] w-[100%] bg-black p-3">
-          <input
-            id="message-input"
-            placeholder='Write Something'
-            type="text"
-            value={messageInput}
-            onChange={handleChange}
-            className="w-3/4 h-12 px-4 rounded-full border-none"
-          />
-          <button
-            id="message-btn"
-            type="submit"
-            className={`w-1/4 h-12 ${messageInput ? "visible" : "invisible"} bg-white hover:bg-green-500 text-black font-bold rounded-full ml-4 cursor-pointer active:bg-green-400`}
-          >
-            Send
-          </button>
-        </form>
       </div>
+
+      <form id="message-form" onSubmit={handleSubmit} className="flex absolute bottom-0 rounded-b-md right-[.1rem] w-[100%] bg-black p-3">
+        <input
+          id="message-input"
+          placeholder='Write Something'
+          type="text"
+          value={messageInput}
+          onChange={handleChange}
+          className="w-3/4 h-12 px-4 rounded-full border-none"
+        />
+        <button
+          id="message-btn"
+          type="submit"
+          className={`w-1/4 h-12 ${messageInput ? "visible" : "invisible"} bg-white hover:bg-green-500 text-black font-bold rounded-full ml-4 cursor-pointer active:bg-green-400`}
+        >
+          Send
+        </button>
+      </form>
     </div>
   );
 }
