@@ -36,7 +36,7 @@ function CategoryPage() {
 
   useEffect(() => {
     fetchPosts();
-  }, []);
+  },);
 
   let selectFile = (e) => {
     setFile(e.target.files[0]);
