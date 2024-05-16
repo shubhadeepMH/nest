@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { getDatabase, ref, set, push, onValue } from 'firebase/database';
 import app from '../firebase.js'; // Adjust the import according to your setup
 import { message as antdMessage } from 'antd';
@@ -8,6 +8,7 @@ function ChatComponent() {
   const [messageInput, setMessageInput] = useState('');
   const [userName, setUserName] = useState('');
   const db = getDatabase(app);
+  const messagesEndRef = useRef(null);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -49,6 +50,13 @@ function ChatComponent() {
     };
   }, [db]);
 
+  useEffect(() => {
+    // Scroll to bottom when messages change
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [messageInput]);
+
   const handleChange = (event) => {
     setMessageInput(event.target.value);
   };
@@ -78,6 +86,7 @@ function ChatComponent() {
               <strong>{message.user}:</strong> {message.message}
             </li>
           ))}
+          <div ref={messagesEndRef} />
         </ul>
 
         <form id="message-form" onSubmit={handleSubmit} className="flex absolute bottom-0 rounded-b-md right-[.1rem] w-[100%] bg-black p-3">
@@ -89,7 +98,11 @@ function ChatComponent() {
             onChange={handleChange}
             className="w-3/4 h-12 px-4 rounded-full border-none"
           />
-          <button id="message-btn" type="submit"  className={`w-1/4 h-12 ${messageInput ? "visible" : "invisible"} bg-white hover:bg-green-500 text-black font-bold rounded-full ml-4 cursor-pointer active:bg-green-400`}>
+          <button
+            id="message-btn"
+            type="submit"
+            className={`w-1/4 h-12 ${messageInput ? "visible" : "invisible"} bg-white hover:bg-green-500 text-black font-bold rounded-full ml-4 cursor-pointer active:bg-green-400`}
+          >
             Send
           </button>
         </form>
