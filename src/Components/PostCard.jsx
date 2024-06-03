@@ -89,7 +89,7 @@ const PostCard = ({ name, title, content, likes, comments, image, uid, fun, date
     );
 
     return (
-        <div className="bg-white p-2 rounded-lg shadow-md max-w-xl mx-auto my-2">
+        <div className="bg-white p-2 rounded-lg shadow-md max-w-2xl mx-auto my-2">
             <div className="flex  justify-left items-center  gap-2 mb-2">
                 <UserOutlined className="text-lg" />
                 <p className="font-semibold ml-1">{name}</p>
@@ -136,9 +136,9 @@ const PostCard = ({ name, title, content, likes, comments, image, uid, fun, date
                     className='cursor-pointer'
                 >
                     <CommentOutlined className="text-lg mr-1" />
-                    <span className="">Comments</span>
+                    <span className="font-bold text-blue-900">{`Comments (${comments.length})`}</span>
                 </Popover>
-                <span onClick={handleReport} className="hover:text-red-600 font-serif cursor-pointer">
+                <span onClick={handleReport} className="hover:text-red-600 font-bold text-blue-900 font-serif cursor-pointer">
                     {isReported ? 'Reported' : 'report'}
                 </span>
             </div>

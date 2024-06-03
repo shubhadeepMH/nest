@@ -1,5 +1,6 @@
 import React from 'react'
 import logo from '../assets/logo-3-bc.png'
+import AnalyticsComponent from './AnalyticsComponent'
 // #18366A
 function Navbar() {
   return (
@@ -12,11 +13,13 @@ function Navbar() {
           <h2 className='text-xl md:text-5xl font-bold leading-tight'> 3rdoor.com</h2>
           <h3 className='text-[.5rem]  md:text-lg font-bold text-gray-300 '>Express Your Thought Without Any Intervention</h3>
         </div>
+        <AnalyticsComponent/>
         <div className='hidden md:flex gap-10 font-mono mt-2 content-center justify-center items-center'>
           {/* <p className='cursor-pointer text-white hover:text-green-300'>Home</p>
           <p className='cursor-pointer  text-white hover:text-green-300'>Trending</p> */}
         </div>
       </div>
+     
     </div>
 
   )

@@ -55,7 +55,7 @@ const categories = [
         category: "Anime & Manga",
         path: "anime-manga",
         image: 'https://img.freepik.com/premium-vector/young-man-anime-style-character-vector-illustration-design-manga-anime-boy_147933-4631.jpg',
-        tagLine:"Share your thoughts and new released content on resources about and current affairs about Anime & Manga",
+        tagLine:"Share  new released content  about and  about Anime & Manga",
         boards: [
 
             {

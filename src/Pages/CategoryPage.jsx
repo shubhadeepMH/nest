@@ -1,16 +1,17 @@
-import React, { useRef, useState, useEffect } from 'react'
+import React, { useRef, useState, useEffect,CSSProperties  } from 'react'
 import { AiOutlinePlus } from 'react-icons/ai';
 import { Modal, Input, message } from "antd";
 import Navbar from '../Components/Navbar';
 import { UploadOutlined } from '@ant-design/icons';
 import { AiTwotoneFolderAdd } from "react-icons/ai";
-import { useParams, useLocation,useNavigate } from 'react-router-dom';
+import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import app from '../firebase.js'
 import PostCard from '../Components/PostCard.jsx'
 import audio from '../assets/audio.wav'
 import formattedDateTime from '../Utils/DateFormatter.js'
+import HashLoader from "react-spinners/HashLoader";
 
 
 
@@ -22,12 +23,12 @@ function CategoryPage() {
 
 
   let param = useParams()
-  let { state ,pathname} = useLocation()//Extracting Data getting from previous page
+  let { state, pathname } = useLocation()//Extracting Data getting from previous page
   const { TextArea } = Input;
   let inputRef = useRef()
-  let navigate=useNavigate()
+  let navigate = useNavigate()
   // console.log(state);
-  let dataToSend = { categoryName: state.categoryName, boardName: state.boardName, tagLine:state.tagLine }
+  let dataToSend = { categoryName: state.categoryName, boardName: state.boardName, tagLine: state.tagLine }
   // console.log(dataToSend)
   // console.log(pathname)
 
@@ -41,11 +42,21 @@ function CategoryPage() {
   let [file, setFile] = useState(null)
   let [uid, setUid] = useState(null)
   let [imageUrl, setImageUrl] = useState(null)
+  let [loading, setLoading] = useState(true);
+  let [color, setColor] = useState("#ffffff");
+
+  // Laoder css
+  const override = {
+    display: "block",
+    margin: "0 auto",
+    borderColor: "red",
+  };
 
   // Get a reference to the storage service, which is used to create references in your storage bucket
 
 
   // Create a storage reference from our storage service
+ 
 
   // Get a non-default Storage bucket
 
@@ -61,7 +72,7 @@ function CategoryPage() {
   },)
   let selectFile = (e) => {
     setFile(e.target.files[0])
-    
+
   }
 
   let fetchPosts = async () => {
@@ -79,7 +90,7 @@ function CategoryPage() {
       setPosts(postResp)
 
     } catch (error) {
-     
+
     }
   }
   // Generating UniqueId
@@ -165,13 +176,13 @@ function CategoryPage() {
             })
           });
           const responseData = await uploadResp.json();
-       
+
           // Playing Audio
           const audioPlay = new Audio(audio);
           audioPlay.volume = 1.0
           audioPlay.play()
             .then(() => {
-              
+
               message.success('Post uploaded successfully');
             })
             .catch(error => console.error('Error playing audio:', error));
@@ -209,9 +220,9 @@ function CategoryPage() {
     <div className='md:px-[1rem]'>
       <Navbar />
       <h2 className='text-md font-mono'>{`${state.categoryName} > `}<span className='font-mono text-black text-md'>{state.boardName}</span></h2>
-      <div onClick={()=>navigate(`${pathname}/admin`,{state:dataToSend})} className='h-[2rem] w-[2rem] rounded-full absolute top-1 right-1 '>
+      <div onClick={() => navigate(`${pathname}/admin`, { state: dataToSend })} className='h-[2rem] w-[2rem] rounded-full absolute top-1 right-1 '>
 
-      
+
       </div>
       <div className='w-full h-[13rem]'>
         <div className='flex flex-col p-2 m-auto text-center content-center items-center w-[20rem] md:w-[30rem] border-slate-500 border-2 flex-shrink hover:border-black'>
@@ -246,22 +257,36 @@ function CategoryPage() {
 
         </div>
       </div>
-      <div className=''>
-        <h1 className='font-bold font-mono underline-offset-2 underline'>Explore </h1>
-        <div className=" ">
-          {posts?.length > 0 && <div className='md:max-w-[40rem] w-[100%] border-green-200 border-2 m-auto text-center'>
-            {
-              posts?.length > 0 && posts.map((post, index) => {
-                let date = formattedDateTime(post.date)
-                return (<div key={index} className=''>
+      <div className="">
+  {posts?.length > 0 ? (
+    <div className='md:max-w-[45rem] w-[100%] border-green-200 border-2 m-auto text-center'>
+      {posts.map((post, index) => {
+        let date = formattedDateTime(post.date);
+        return (
+          <div key={index} className=''>
+            <PostCard
+              name={post.name}
+              adminPost={post.adminPost}
+              title={post.title}
+              content={post.content}
+              likes={post.likes}
+              comments={post.comments}
+              image={post.fileUrl}
+              uid={post.uniqueId}
+              fun={fetchPosts}
+              date={date}
+            />
+          </div>
+        );
+      })}
+    </div>
+  ) : (
+    <h1 className='text-lg font-bold text-center'>
+      {posts ? "No posts yet" : "We are loading..."}
+    </h1>
+  )}
+</div>
 
-                  <PostCard name={post.name} adminPost={post.adminPost} title={post.title} content={post.content} likes={post.likes} comments={post.comments} image={post.fileUrl} uid={post.uniqueId} fun={fetchPosts} date={date} />
-                </div>)
-              })
-            }
-          </div>}
-        </div>
-      </div>
 
     </div>
   )
