@@ -94,7 +94,7 @@ function FeedPostTile({ name, title, content, likes, comments, image, uid, fun, 
             <div className=' border-gray-300 border-t flex justify-around items-center mt-2'>
                 <div onClick={() => navigate('/post/' + uid, { state: dataToSend })} className='flex items-center space-x-2 p-1'>
                     <FaRegComments className='h-6 w-6 text-blue-600' />
-                    <p className='text-blue-600'>{comments.length}</p>
+                    <p className='text-blue-600'>{comments?.length}</p>
                 </div>
                 <div>
                     <FaRegShareSquare onClick={sharePost} className='h-6 w-6 text-blue-600' />

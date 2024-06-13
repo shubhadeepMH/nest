@@ -28,13 +28,13 @@ function LeftSideBar({togglePosting}) {
                     <a href="/feed#post">
                         <div onClick={()=>togglePosting()} className='flex items-center m-2 space-x-2 p-2 cursor-pointer hover:bg-slate-600 rounded-xl'>
                             <IoAddCircle className='h-[2rem] w-[2rem] text-blue-400 active:scale-105 ' />
-                            <h1 className=' text-2xl font-extralight   text-white '>Post</h1>
+                            <h1 className=' text-2xl font-extralight   text-white '>post</h1>
                         </div>
                         </a>
 
                         <div className='flex items-center p-2 space-x-2 m-2 cursor-pointer'>
                             <GiHistogram className='h-[2rem] w-[2rem] text-blue-400' />
-                            <h1 className=' text-2xl font-extralight   text-white'>Trending</h1>
+                            <h1 className=' text-2xl font-extralight   text-white'>trending</h1>
                         </div>
 
 

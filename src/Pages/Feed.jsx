@@ -9,6 +9,9 @@ import RightSideBar from '../Components/RightSideBar';
 import { FaAngleDown } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
+import { Modal, Input, message } from "antd";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import app from '../firebase.js'
 
 
 function Feed() {
@@ -33,7 +36,7 @@ function Feed() {
 
   let categories = ["Game Release", "Retro Games", "Gemerals", "MMGD", "News", "International", "Elections", "Justice/News2", "Manga", "Recent Animes", "Wallpeper", "Fashion", "Hentai", "Torrents", "Leaked Movies"]
   // Function to shuffle the posts array
-  
+
     // Generating Unique Id
 
   const generateUniqueId = () => {
@@ -54,8 +57,141 @@ function Feed() {
 
   // Adding Post
 
-  let addPost=()=>{
-   
+  let addPost=async()=>{
+    if (title && content) {
+      try {
+        // Generate unique ID
+        const id = generateUniqueId();
+        setUid(id);
+
+      
+
+        if (file) {
+          // Check if the selected file is an image or video (PNG or JPEG/mp4)
+          const isImageFile = file.type.startsWith('image/');
+          const isVideoFile = file.type.startsWith('video/mp4');
+          if (isImageFile || isVideoFile) {
+            message.info('Uploading your post. Please wait...');
+
+            // Upload file to Firebase Storage
+            const fileName = `${Date.now()}_${file.name}`;
+            const storageRef = ref(storage, `images/${fileName}`);
+            await uploadBytes(storageRef, file);
+
+            // Get download URL for the uploaded image
+            const downloadUrl = await getDownloadURL(storageRef);
+            setImageUrl(downloadUrl);
+
+            // Upload data to API including file URL
+            const uploadResp = await fetch('https://training-mocha.vercel.app/add-post', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                title,
+                content,
+                fileUrl: downloadUrl,
+                hashTags,
+                uniqueId: id
+              })
+            });
+            const responseData = await uploadResp.json();
+            // Playing Audio
+            // const audioPlay = new Audio(audio);
+            // audioPlay.volume = 1.0
+            // audioPlay.play()
+            //   .then(() => {
+            //     message.success('Post uploaded successfully');
+            //   })
+            //   .catch(error => console.error('Error playing audio:', error));
+            let postArr=posts;
+            postArr.unshift({
+              title,
+              content,
+              fileUrl: downloadUrl,
+              hashTags,
+              uniqueId: id,
+              date:Date.now()
+            })
+            setPosts(postArr)
+
+
+          } else {
+            // Selected file is not an image
+            message.error('Please select a PNG or JPEG image file.');
+          }
+        } else {
+          // Upload post without image file
+          const uploadResp = await fetch('https://training-mocha.vercel.app/add-post', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+             
+              title,
+              content,
+              hashTags,
+              uniqueId: id
+            })
+          });
+          const responseData = await uploadResp.json();
+
+          // // Playing Audio
+          // const audioPlay = new Audio(audio);
+          // audioPlay.volume = 1.0
+          // audioPlay.play()
+          //   .then(() => {
+
+          //     message.success('Post uploaded successfully');
+          //   })
+          //   .catch(error => console.error('Error playing audio:', error));
+          let postArr=posts;
+          postArr.unshift({
+            title,
+            content,
+            hashTags,
+            uniqueId: id,
+            date:Date.now()
+          })
+          setPosts(postArr)
+
+        }
+
+        // Reset form state
+        message.success('Post uploaded successfully');
+      
+        setTitle('');
+        setContent('');
+        setFile(null);
+        setUid('');
+        setImageUrl('');
+        setHashTags([])
+        // Hiding posting section
+        setPosting(false);
+      } catch (error) {
+        console.error('Error uploading post:', error);
+        message.error('Failed to upload post. Please try again.');
+      }
+    } else {
+      message.error('Please Add Title and Content');
+    }
+
+  }
+
+  // Cancelling Post
+  
+  let cancelPost=()=>{
+
+    setTitle('');
+    setContent('');
+    setFile(null);
+    setUid('');
+    setImageUrl('');
+    setHashTags([])
+    // Hiding posting section
+    setPosting(false);
   }
 
   // Select video or Image Files
@@ -70,7 +206,6 @@ function Feed() {
     let postResp = await fetch("https://training-mocha.vercel.app/all-posts");
 
     postResp = await postResp.json()
-    console.log(postResp.shuffledPosts)
     setPosts(postResp.shuffledPosts)
   }
 
@@ -149,8 +284,9 @@ function Feed() {
                   <input onChange={selectFile} className='hidden' accept=".png,.jpeg,.jpg,.mp4" ref={fileRef} type="file" />
                   {!file ? <label className='font-bold text-white font-mono ml-3 '>Add File</label> : <span className='font-bold text-white font-mono '>{file.name}</span>}
                 </div>
-                <div className=''>
-                  <p onClick={addPost} className='font-mono cursor-pointer hover:font-bold active:scale-105 text-blue-500 rounded-lg border border-blue-400 px-8'>post</p>
+                <div className=' flex space-x-1 items-center'>
+                  <p onClick={addPost} className='font-mono cursor-pointer hover:font-bold active:scale-105 text-blue-500 rounded-lg border border-blue-400 px-8'>Post</p>
+                  <p onClick={cancelPost} className='font-mono cursor-pointer hover:font-bold active:scale-105 text-blue-500 rounded-lg border border-blue-400 px-8'>Cancel</p>
                   {/* <select defaultChecked="Select" defaultValue={`Select`} className='bg-black cursor-pointer text-white border-none outline-none' name="category" id="select">
                   {categories.map((category) => {
                     return (
@@ -188,7 +324,7 @@ function Feed() {
             );
           }) : (
             <div className=' w-full bg-black h-screen'>
-              <h1 className='text-blue-500 text-2xl font-light text-center mt-[20rem]'>3rdoor...</h1>
+              <h1 className='text-blue-500 font-extrabold text-2xl md:font-light text-center mt-[27rem] md:mt-[20rem]'>3rdoor...</h1>
 
             </div>
           )}
@@ -198,7 +334,7 @@ function Feed() {
 
       <div className={`text-center fixed lg:hidden bottom-0 w-full border-t border-blue-400 p-1 bg-transparent rounded-lg ${scrollDirection === 'down' ? 'opacity-30' : 'opacity-100'} `}>
         <a href="#post">
-          <IoAddCircle onClick={togglePosting} className={`h-9 w-9 m-auto text-center cursor-pointer text-white active:scale-105 ${scrollDirection === 'down' ? 'disabled:' : ''}`} />
+          <IoAddCircle onClick={togglePosting} className={`h-12 w-12 m-auto text-center cursor-pointer text-white active:scale-105 ${scrollDirection === 'down' ? 'disabled:' : ''}`} />
         </a>
       </div>
     </div>
