@@ -248,7 +248,7 @@ function Feed() {
       {/* <header>
         <Navbar />
       </header> */}
-      <header className='bg-black md:hidden p-2 flex items-center space-x-2'>
+      <header className='bg-black md:hidden p-2 flex items-center space-x-2 sticky top-0'>
       <img className='h-[1.5rem] w-[2.5rem]' src={logo} alt="" srcset="" />
         <h1 className='font-extrabold text-xl text-white'>3rdoor</h1>
       </header>
@@ -287,11 +287,11 @@ function Feed() {
 
                 <div>
                   <input onChange={selectFile} className='hidden' accept=".png,.jpeg,.jpg,.mp4" ref={fileRef} type="file" />
-                  {!file ? <label className='font-bold text-white font-mono ml-3 '>Add File</label> : <span className='font-bold text-white font-mono '>{file.name}</span>}
+                  {!file ? <label className='font-bold text-xs text-white font-mono '>Add File</label> : <span className='font-bold text-white font-mono text-xs '>{file.name.slice(0,10)}</span>}
                 </div>
                 <div className=' flex space-x-1 items-center'>
                   <p onClick={addPost} className='font-mono cursor-pointer hover:font-bold active:scale-105 text-blue-500 rounded-lg border border-blue-400 px-8'>Post</p>
-                  <p onClick={cancelPost} className='font-mono cursor-pointer hover:font-bold active:scale-105 text-blue-500 rounded-lg border border-blue-400 px-8'>Cancel</p>
+                  <p onClick={cancelPost} className='font-mono cursor-pointer hover:font-bold active:scale-105 text-blue-500 rounded-lg border border-blue-400 px-6'>Cancel</p>
                   {/* <select defaultChecked="Select" defaultValue={`Select`} className='bg-black cursor-pointer text-white border-none outline-none' name="category" id="select">
                   {categories.map((category) => {
                     return (
@@ -329,7 +329,7 @@ function Feed() {
             );
           }) : (
             <div className=' w-full bg-black h-screen'>
-              <h1 className='text-blue-500 font-extrabold text-[2.5rem]md:font-light text-center mt-[35rem] md:mt-[20rem]'>3rdoor...</h1>
+              <h1 className='text-blue-500 font-extrabold text-[2.5rem]md:font-light text-center mt-[28rem] md:mt-[20rem]'>3rdoor...</h1>
 
             </div>
           )}
@@ -337,9 +337,9 @@ function Feed() {
         <RightSideBar />
       </div>
 
-      <div className={`text-center fixed lg:hidden bottom-0 w-full border-t border-blue-400 p-3 bg-transparent rounded-lg ${scrollDirection === 'down' ? 'opacity-30' : 'opacity-100'} `}>
+      <div className={`text-center fixed lg:hidden bottom-0 w-full border-t border-blue-400 p-1 bg-transparent rounded-lg ${scrollDirection === 'down' ? 'opacity-30' : 'opacity-100'} `}>
         <a href="#post">
-          <IoAddCircle onClick={togglePosting} className={`h-14 w-14 m-auto text-center cursor-pointer text-white active:scale-105 ${scrollDirection === 'down' ? 'disabled:' : ''}`} />
+          <IoAddCircle onClick={togglePosting} className={`h-12 w-12 m-auto text-center cursor-pointer text-white active:scale-105 ${scrollDirection === 'down' ? 'disabled:' : ''}`} />
         </a>
       </div>
     </div>
