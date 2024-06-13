@@ -3,13 +3,15 @@ import Pusher from 'pusher-js';
 
 function AnalyticsComponent() {
     const [userCount, setUserCount] = useState(0);
-    const [totalPosts, setTotalPosts] = useState(0);
+    const [posts, setPosts] = useState([]);
 
     const fetchNumberOfPosts = async () => {
         try {
             let resp = await fetch("https://training-mocha.vercel.app/all-posts");
             resp = await resp.json();
-            setTotalPosts(resp);
+            // console.log("resp:",resp.posts)
+            setPosts(resp.posts);
+            
         } catch (error) {
             console.error("Error fetching posts:", error);
         }
@@ -37,12 +39,12 @@ function AnalyticsComponent() {
             pusher.unsubscribe('user-count');
           };
        
-    }, []); // Adding an empty dependency array to ensure it runs only once
+    }); // Adding an empty dependency array to ensure it runs only once
 
     return (
         <div className="flex text-white font-bold">
             
-            <h1>Total Posts : {totalPosts.postsLength}</h1>
+            <h1>Total Posts : {posts.length}</h1>
         </div>
     );
 }
