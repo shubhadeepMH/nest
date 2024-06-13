@@ -10,6 +10,7 @@ import { FaAngleDown } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { Modal, Input, message } from "antd";
+import logo from '../assets/logo-3-bc.png'
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import app from '../firebase.js'
 
@@ -247,6 +248,10 @@ function Feed() {
       {/* <header>
         <Navbar />
       </header> */}
+      <header className='bg-black md:hidden p-2 flex items-center space-x-2'>
+      <img className='h-[1.5rem] w-[2.5rem]' src={logo} alt="" srcset="" />
+        <h1 className='font-extrabold text-xl text-white'>3rdoor</h1>
+      </header>
       <div className='lg:flex h-screen lg:overflow-hidden'>
         <LeftSideBar togglePosting={togglePosting} />
         <div className=' overflow-y-auto  w-full bg-black'>
@@ -324,7 +329,7 @@ function Feed() {
             );
           }) : (
             <div className=' w-full bg-black h-screen'>
-              <h1 className='text-blue-500 font-extrabold text-2xl md:font-light text-center mt-[27rem] md:mt-[20rem]'>3rdoor...</h1>
+              <h1 className='text-blue-500 font-extrabold text-[2.5rem]md:font-light text-center mt-[35rem] md:mt-[20rem]'>3rdoor...</h1>
 
             </div>
           )}
@@ -332,9 +337,9 @@ function Feed() {
         <RightSideBar />
       </div>
 
-      <div className={`text-center fixed lg:hidden bottom-0 w-full border-t border-blue-400 p-1 bg-transparent rounded-lg ${scrollDirection === 'down' ? 'opacity-30' : 'opacity-100'} `}>
+      <div className={`text-center fixed lg:hidden bottom-0 w-full border-t border-blue-400 p-3 bg-transparent rounded-lg ${scrollDirection === 'down' ? 'opacity-30' : 'opacity-100'} `}>
         <a href="#post">
-          <IoAddCircle onClick={togglePosting} className={`h-12 w-12 m-auto text-center cursor-pointer text-white active:scale-105 ${scrollDirection === 'down' ? 'disabled:' : ''}`} />
+          <IoAddCircle onClick={togglePosting} className={`h-14 w-14 m-auto text-center cursor-pointer text-white active:scale-105 ${scrollDirection === 'down' ? 'disabled:' : ''}`} />
         </a>
       </div>
     </div>

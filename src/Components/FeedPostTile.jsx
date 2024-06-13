@@ -64,8 +64,8 @@ function FeedPostTile({ name, title, content, likes, comments, image, uid, fun, 
             </div>
             {/* Content */}
             <div onClick={() => navigate('/post/' + uid, { state: dataToSend })} className='text-white ml-4'>
-                <h2 className='font-bold'>{title}</h2>
-                <p className=" " onClick={toggleContent}>
+                <h2 className='font-bold text-xl md:text-md'>{title}</h2>
+                <p className="text-lg " onClick={toggleContent}>
                     {showFullContent ? content : truncatedText}
                     {content.length > 200 && (
                         <span style={{ cursor: 'pointer', color: 'blue' }} onClick={toggleContent}>
