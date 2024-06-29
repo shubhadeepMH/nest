@@ -3,16 +3,19 @@ import Navbar from '../Components/Navbar'
 import FeedPostTile from '../Components/FeedPostTile';
 import formattedDateTime from '../Utils/DateFormatter';
 import { IoAddCircle } from "react-icons/io5";
-import { FaFileCirclePlus } from "react-icons/fa6";
+import { FaFileCirclePlus ,FaArrowRightLong} from "react-icons/fa6";
+
 import LeftSideBar from '../Components/LeftSideBar';
 import RightSideBar from '../Components/RightSideBar';
 import { FaAngleDown } from "react-icons/fa";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate ,Link} from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { Modal, Input, message } from "antd";
 import logo from '../assets/logo-3-bc.png'
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import app from '../firebase.js'
+import { addPosts } from '../store/Slices/postSlice.js';
+import { useDispatch,useSelector } from 'react-redux';
 
 
 function Feed() {
@@ -27,8 +30,15 @@ function Feed() {
   let [hashTags, setHashTags] = useState([])
   let [hashTag, setHashTag] = useState()
   let [posting, setPosting] = useState(false)
+  
 
   let navigate = useNavigate()
+  let dispatch=useDispatch()
+
+  const postsData = useSelector((state) => state.posts.posts)
+  const scrollPosition = useSelector((state) => state.posts.scrollPosition)
+  const isLoaded = useSelector((state) => state.posts.isLoaded) //Flag for loading the posts or not
+  
 
 
 
@@ -203,16 +213,26 @@ function Feed() {
 
   // Fetching Posts from backend
 
-  let fetchPosts = async () => {
-    let postResp = await fetch("https://training-mocha.vercel.app/all-posts");
-
-    postResp = await postResp.json()
-    setPosts(postResp.shuffledPosts)
-  }
+  const fetchPosts = async () => {
+    try {
+      const response = await fetch("https://training-mocha.vercel.app/all-posts");
+      const data = await response.json();
+      dispatch(addPosts(data.shuffledPosts));
+    } catch (error) {
+      console.error("Error fetching posts:", error);
+    }
+  };
 
   useEffect(() => {
-    fetchPosts()
-  }, [])
+    if (!isLoaded) {
+      fetchPosts();
+    }
+  }, [isLoaded, dispatch]);
+
+  useEffect(() => {
+    window.scrollTo(0, scrollPosition);
+  }, [scrollPosition]);
+
   // Clicked Post Button
 
   let togglePosting = () => {
@@ -222,6 +242,8 @@ function Feed() {
 
   const handleScroll = () => {
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      // console.log(scrollTop)
+
 
     if (scrollTop > lastScrollTop) {
       setScrollDirection('down');
@@ -245,15 +267,30 @@ function Feed() {
 
   return (
     <div className=''>
+
+
       {/* <header>
         <Navbar />
       </header> */}
-      <header className='bg-black md:hidden p-2 flex items-center space-x-2 sticky top-0'>
+      <header className='bg-black md:hidden p-2 flex items-center px-1 justify-around fixed top-0 w-screen'>
+      <div className="flex items-center space-x-1">
       <img className='h-[1.5rem] w-[2.5rem]' src={logo} alt="" srcset="" />
         <h1 className='font-extrabold text-xl text-white'>3rdoor</h1>
+        </div>
+        <Link to='/trending'>
+        <div  className="trending    cursor-pointer ">
+    <p className={`space-x-2 mt-2 cursor-pointer flex items-center rounded-lg border border-blue-400 px-3 font-bold text-white }`}>Trending</p>
+    </div>
+    </Link>
+    <Link to="/boards">
+    <div className=" space-x-2 mt-2 cursor-pointer flex items-center rounded-lg border border-blue-400 px-3 font-bold text-white">
+      <p className="">Go To Boards </p>
+      <FaArrowRightLong className="text-white" />
+      </div>
+      </Link>
       </header>
       <div className='lg:flex h-screen lg:overflow-hidden'>
-        <LeftSideBar togglePosting={togglePosting} />
+        <LeftSideBar togglePosting={togglePosting} postPossible={true} />
         <div className=' overflow-y-auto  w-full bg-black'>
           {posting && <section className='border-b border-slate-500' id='post'>
             <div className=''>
@@ -264,10 +301,10 @@ function Feed() {
               <div className='flex items-center space-x-2 flex-wrap'>
                 {/* Looping Hash Tags */}
                 <div className="flex items-center space-x-1 flex-wrap">
-                  {hashTags.map((tag) => {
+                  {hashTags.map((tag,index) => {
                     return (
 
-                      <p className='text-blue-600 font-light'>
+                      <p key={index} className='text-blue-600 font-light'>
                         #{tag}
                       </p>
 
@@ -309,7 +346,7 @@ function Feed() {
 
             </div>
           </section>}
-          {posts ? posts.map((post, index) => {
+          {postsData ? postsData.map((post, index) => {
             let date = formattedDateTime(post.date);
             return (
               <div key={post.uniqueId}>

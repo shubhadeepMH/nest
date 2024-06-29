@@ -44,7 +44,7 @@ function AnalyticsComponent() {
     return (
         <div className="flex text-white font-bold">
             
-            <h1>Total Posts : {posts.length}</h1>
+            <h1>Total Posts : {posts?.length}</h1>
         </div>
     );
 }

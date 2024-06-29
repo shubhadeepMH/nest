@@ -11,11 +11,11 @@ function PostPage() {
     let [comment,setComment]=useState()
     let addComment=(e)=>{
         setComment(e.target.value)
-        console.log(e.target.value);
+      
     }
 
     let postComment=async()=>{
-        console.log("Comment added");
+        
         let resp = await fetch("https://training-mocha.vercel.app/comment", {
             method: 'POST',
             headers: {
@@ -32,7 +32,7 @@ function PostPage() {
     return (
         <div>
             <div className='bg-black h-screen flex '>
-                <LeftSideBar />
+                <LeftSideBar postPossible={state.postPossible}/>
                 <div className='bg-black overflow-y-auto w-full p-2'>
                     <div className='flex space-x-2 items-center'>
                         <div className='left flex space-x-2 items-center'>
@@ -62,7 +62,7 @@ function PostPage() {
 
                         }
                         {
-                            state.image && state.image.includes('mp4') && <video onClick={handleVideoClick} muted className='rounded-lg h-[50%]' controls autoPlay src={state.image} />
+                            state.image && state.image.includes('mp4') && <video  muted className='rounded-lg h-[50%]' controls autoPlay src={state.image} />
 
                         }
                     </div>

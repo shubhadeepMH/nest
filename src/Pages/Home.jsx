@@ -9,7 +9,7 @@ import ChatComponent from '../Components/ChatComponent';
 function Home() {
     return (
         <div className=' bg-gradient-to-r bg-black'>
-            <div className='md:px-[1rem] h-[127rem]  '>
+            <div className='md:px-[1rem]   '>
                 <Navbar />
                 <Note />
 
@@ -43,15 +43,15 @@ function Home() {
                 </div>
                  {/* Live Chat Section */}
                  <div className=' w-[70%] m-auto text-center'>
-                    <ChatComponent/>
+                    {/* <ChatComponent/> */}
                     </div>
 
 
             </div>
             {/* Footer Component */}
-            <div className="h-[3rem] mt-[2rem] w-full  ">
+           
                 <Footer />
-            </div>
+           
         </div>
     );
 }

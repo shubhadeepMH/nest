@@ -2,10 +2,15 @@ import React, { useState } from 'react'
 import { UserOutlined, CommentOutlined, ShareAltOutlined } from '@ant-design/icons';
 import { FaRegComments, FaRegShareSquare } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setScrollPosition } from '../store/Slices/postSlice';
 
 
 function FeedPostTile({ name, title, content, likes, comments, image, uid, fun, date, adminPost }) {
     const [showFullContent, setShowFullContent] = useState(false);
+
+    let dispatch=useDispatch()
+
 
     const toggleContent = () => {
         setShowFullContent(!showFullContent);
@@ -42,7 +47,13 @@ function FeedPostTile({ name, title, content, likes, comments, image, uid, fun, 
         }
     };
 
-    let dataToSend = { name, title, content, likes, comments, image, uid, fun, date, adminPost }
+    let dataToSend = { name, title, content, likes, comments, image, uid, fun, date, adminPost,postPossible:false, }
+    const handlePostClick=()=>{
+        navigate('/post/' + uid, { state: dataToSend })
+        dispatch(setScrollPosition(window.pageYOffset || document.documentElement.scrollTop));
+
+    }
+
     return (
         <div className=' border-b border-slate-300 bg-black py-2 px-1 cursor-pointer'>
             {/* Header */}
@@ -63,7 +74,7 @@ function FeedPostTile({ name, title, content, likes, comments, image, uid, fun, 
 
             </div>
             {/* Content */}
-            <div onClick={() => navigate('/post/' + uid, { state: dataToSend })} className='text-white ml-4'>
+            <div onClick={handlePostClick } className='text-white ml-4 mt-2'>
                 <h2 className='font-bold text-xl md:text-md'>{title}</h2>
                 <p className="text-lg " onClick={toggleContent}>
                     {showFullContent ? content : truncatedText}
@@ -75,22 +86,16 @@ function FeedPostTile({ name, title, content, likes, comments, image, uid, fun, 
                 </p>
             </div>
             {/* image or video */}
-            <div className='p-3  '>
-                {
-                    image && <div className='flex justify-end'>
-                        {image.includes('png') || image.includes('jpeg') || image.includes("jpg") && <img className=' rounded-lg margin-auto text-right md:scale-y-75' src={image} />}
+            <div className='p-3 '>
+                        {
+                           image && (image.includes('png') || image.includes('jpeg') || image.includes("jpg")) && <img className='scale-y-90 rounded-lg' src={image} />
+
+                        }
+                        {
+                            image && image.includes('mp4') && <video  muted className='rounded-lg h-[50%]' controls autoPlay src={image} />
+
+                        }
                     </div>
-
-                }
-                {
-
-
-                    image && <div className="flex justify-end">{image.includes('mp4') && <video onClick={handleVideoClick} muted className='rounded-lg h-[50%] md:scale-y-75' controls autoPlay src={image} />}
-                    </div>
-
-
-                }
-            </div>
             <div className=' border-gray-300 border-t flex justify-around items-center mt-2'>
                 <div onClick={() => navigate('/post/' + uid, { state: dataToSend })} className='flex items-center space-x-2 p-1'>
                     <FaRegComments className='h-6 w-6 text-blue-600' />

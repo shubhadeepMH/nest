@@ -13,7 +13,7 @@ function CategorieTile({ name, image, path, boards, tagLine ,categoryIndex,categ
         <div className='flex flex-col items-center'>
           <h2 className=' text-[2rem] md:text-[1.2rem] md:font-bold font-extrabold font-mono text-white'>{name}</h2> {/* Category name */}
           <div className='p-2'>
-            <p className='text-[3rem] md:text-sm text-white'>{tagLine}</p> {/* Dummy text */}
+            <p className=' text-white text-center'>{tagLine}</p> {/* Dummy text */}
           </div>
         </div>
         <div className='flex flex-col items-center '>
@@ -21,7 +21,7 @@ function CategorieTile({ name, image, path, boards, tagLine ,categoryIndex,categ
           <p className='text-md font-bold text-slate-600 text-center'>{boards.length}</p> {/* Dummy number */}
         </div>
       </div>
-      <div className='grid grid-cols-4 p-2 gap-4 justify-center ml-[3rem]'>
+      <div className='flex  flex-wrap justify-between p-2'>
         {
           boards.map((board, index) => {
             {/* Sending Data To Next Page */ }
@@ -29,7 +29,7 @@ function CategorieTile({ name, image, path, boards, tagLine ,categoryIndex,categ
            let  boardPath= board.boardPath
             return (
               categoryIndex!=categoryLength-1?( <div key={index} className=''>
-                <h2 onClick={() => navigate(`/${path}/${boardPath}`, { state: dataToSend })} className='text-lg font-bold md:text-sm text-white font-sans underline-offset-1 cursor-pointer underline'>{board.boardName}</h2>
+                <h2 onClick={() => navigate(`/${path}/${boardPath}`, { state: dataToSend })} className=' font-bold md:text-sm text-white font-sans underline-offset-1 cursor-pointer underline'>{board.boardName}</h2>
               </div>):(
                 <div key={index} className=''>
                 <h2 onClick={() => navigate(`/special/${path}/${boardPath}`, { state: dataToSend })} className='text-lg font-bold md:text-sm text-white font-sans underline-offset-1 cursor-pointer underline'>{board.boardName}</h2>

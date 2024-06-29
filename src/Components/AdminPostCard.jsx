@@ -55,6 +55,25 @@ const AdminPostCard = ({ name, title, content, likes, comments, image, uid, date
         // Add logic for other menu items (e.g., "Edit Post") here
     };
 
+    let trend=async()=>{
+            let resp=await fetch('https://training-mocha.vercel.app/trend-post',{
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    postUid: postId,
+                }),
+                
+               
+            })
+            
+                resp=await resp.json();
+                console.log(resp)
+                console.log("_id:",postId)
+        
+    }
+
     //   Post options Menu
     const menu = (
         <Menu onClick={handleMenuClick}>
@@ -134,6 +153,8 @@ const AdminPostCard = ({ name, title, content, likes, comments, image, uid, date
                     <CommentOutlined className="text-lg mr-1" />
                     <span className="">Comments</span>
                 </Popover>
+
+                <p onClick={trend} className="text-lg mr-1 cursor-pointer">trend</p>
                 {/* <span onClick={handleReport} className="hover:text-red-600 font-serif cursor-pointer">
                     {isReported ? 'Reported' : 'report'}
                 </span> */}
