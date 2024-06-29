@@ -21,7 +21,7 @@ export const counterSlice = createSlice({
     },
     setScrollPosition: (state, action) => {
         console.log(action.payload)
-        state.scrollPosition=action.payload-2
+        state.scrollPosition=action.payload
 
       },
     incrementByAmount: (state, action) => {

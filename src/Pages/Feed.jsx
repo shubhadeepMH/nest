@@ -272,7 +272,7 @@ function Feed() {
       {/* <header>
         <Navbar />
       </header> */}
-      <header className='bg-black md:hidden p-2 flex items-center px-1 justify-around fixed top-0 w-screen'>
+      <header className='bg-black z-20 md:hidden p-2 flex items-center px-1 justify-around fixed top-0 w-screen'>
       <div className="flex items-center space-x-1">
       <img className='h-[1.5rem] w-[2.5rem]' src={logo} alt="" srcset="" />
         <h1 className='font-extrabold text-xl text-white'>3rdoor</h1>

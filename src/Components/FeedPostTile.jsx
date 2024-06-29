@@ -88,11 +88,11 @@ function FeedPostTile({ name, title, content, likes, comments, image, uid, fun, 
             {/* image or video */}
             <div className='p-3 '>
                         {
-                           image && (image.includes('png') || image.includes('jpeg') || image.includes("jpg")) && <img className='scale-y-90 rounded-lg' src={image} />
+                           image && (image.includes('png') || image.includes('jpeg') || image.includes("jpg")) && <img className='scale-y-90 rounded-lg z-0' src={image} />
 
                         }
                         {
-                            image && image.includes('mp4') && <video  muted className='rounded-lg h-[50%]' controls autoPlay src={image} />
+                            image && image.includes('mp4') && <video  muted className='rounded-lg h-[50%] z-0' controls autoPlay src={image} />
 
                         }
                     </div>
