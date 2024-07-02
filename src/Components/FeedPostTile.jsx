@@ -4,17 +4,29 @@ import { FaRegComments, FaRegShareSquare } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setScrollPosition } from '../store/Slices/postSlice';
+import { RxCross2 } from "react-icons/rx";
+import PostModal from './PostModal';
+import DetectScreen from './DetectScreen';
 
 
 function FeedPostTile({ name, title, content, likes, comments, image, uid, fun, date, adminPost }) {
     const [showFullContent, setShowFullContent] = useState(false);
+    const [showPostModal, setShowPostModal] = useState(false);
 
-    let dispatch=useDispatch()
+    const { width } = DetectScreen();
 
+    let dispatch = useDispatch()
+showPostModal
 
     const toggleContent = () => {
         setShowFullContent(!showFullContent);
     };
+
+    // Toggling Post Modal
+    let togglePostModal=()=>{
+        setShowPostModal(!showPostModal)
+        console.log(!showPostModal)
+    }
     const truncatedText = content.length > 200 ? `${content.slice(0, 200)}` : content;
 
 
@@ -22,8 +34,8 @@ function FeedPostTile({ name, title, content, likes, comments, image, uid, fun, 
     let sharePost = async () => {
         const shareData = {
             title: title,
-            text: content,
-            url: window.location.href
+            image,
+            url: window.location.href / uid
         };
         if (navigator.share) {
             try {
@@ -47,11 +59,20 @@ function FeedPostTile({ name, title, content, likes, comments, image, uid, fun, 
         }
     };
 
-    let dataToSend = { name, title, content, likes, comments, image, uid, fun, date, adminPost,postPossible:false, }
-    const handlePostClick=()=>{
-        navigate('/post/' + uid, { state: dataToSend })
-        dispatch(setScrollPosition(window.pageYOffset || document.documentElement.scrollTop));
+    let dataToSend = { name, title, content, likes, comments, image, uid, fun, date, adminPost, postPossible: false, }
 
+
+    const handlePostClick = () => {
+        if (width < 768) {
+            navigate('/post/' + uid, { state: dataToSend })
+            dispatch(setScrollPosition(window.pageYOffset || document.documentElement.scrollTop));
+    
+        }else{
+
+            togglePostModal()
+        }
+       
+        
     }
 
     return (
@@ -74,7 +95,7 @@ function FeedPostTile({ name, title, content, likes, comments, image, uid, fun, 
 
             </div>
             {/* Content */}
-            <div onClick={handlePostClick } className='text-white ml-4 mt-2'>
+            <div onClick={handlePostClick} className='text-white ml-4 mt-2'>
                 <h2 className='font-bold text-xl md:text-md'>{title}</h2>
                 <p className="text-lg " onClick={toggleContent}>
                     {showFullContent ? content : truncatedText}
@@ -87,15 +108,15 @@ function FeedPostTile({ name, title, content, likes, comments, image, uid, fun, 
             </div>
             {/* image or video */}
             <div className='p-3 '>
-                        {
-                           image && (image.includes('png') || image.includes('jpeg') || image.includes("jpg")) && <img className='scale-y-90 rounded-lg z-0' src={image} />
+                {
+                    image && (image.includes('png') || image.includes('jpeg') || image.includes("jpg")) && <img className='scale-y-90 rounded-lg z-0' src={image} />
 
-                        }
-                        {
-                            image && image.includes('mp4') && <video  muted className='rounded-lg h-[50%] z-0' controls autoPlay src={image} />
+                }
+                {
+                    image && image.includes('mp4') && <video muted className='rounded-lg h-[50%] z-0' controls autoPlay src={image} />
 
-                        }
-                    </div>
+                }
+            </div>
             <div className=' border-gray-300 border-t flex justify-around items-center mt-2'>
                 <div onClick={() => navigate('/post/' + uid, { state: dataToSend })} className='flex items-center space-x-2 p-1'>
                     <FaRegComments className='h-6 w-6 text-blue-600' />
@@ -105,8 +126,7 @@ function FeedPostTile({ name, title, content, likes, comments, image, uid, fun, 
                     <FaRegShareSquare onClick={sharePost} className='h-6 w-6 text-blue-600' />
                 </div>
 
-
-
+               {showPostModal && <PostModal name={name} date={date} title={title} content={content} image={image} comments={comments} sharePost={sharePost} togglePostModal={togglePostModal} uid={uid}/>}
             </div>
         </div>
     )

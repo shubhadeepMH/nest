@@ -26,6 +26,8 @@ function PostPage() {
                 comment
             }),
         })
+
+        state.comments.unshift(comment) // Temporarily setting the comment to the array.
         setComment("")
     }
 
