@@ -35,7 +35,7 @@ showPostModal
         const shareData = {
             title: title,
             image,
-            url: window.location.href / uid
+            url: window.location.href/uid
         };
         if (navigator.share) {
             try {
