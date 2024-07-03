@@ -291,7 +291,7 @@ function Feed() {
       </header>
       <div className='lg:flex h-screen lg:overflow-hidden'>
         <LeftSideBar togglePosting={togglePosting} postPossible={true} />
-        <div className=' overflow-y-auto  w-full bg-black'>
+        <div className=' overflow-y-auto  w-full bg-black scrollbar-hide'>
           {posting && <section className='border-b border-slate-500' id='post'>
             <div className=''>
               <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder='Add Title' className='w-full bg-black p-2 text-white  h-10 outline-none border-none  ' type="text" />
@@ -374,11 +374,11 @@ function Feed() {
         <RightSideBar />
       </div>
 
-      <div className={`text-center fixed lg:hidden bottom-0 w-full border-t border-blue-400 p-1 bg-transparent rounded-lg ${scrollDirection === 'down' ? 'opacity-30' : 'opacity-100'} `}>
-        <a href="#post">
-          <IoAddCircle onClick={togglePosting} className={`h-12 w-12 m-auto text-center cursor-pointer text-white active:scale-105 ${scrollDirection === 'down' ? 'disabled:' : ''}`} />
+    
+        <a href="#post" className='fixed right-8 bottom-10  md:hidden'>
+          <IoAddCircle onClick={togglePosting} className={`h-12 w-12 m-auto text-center cursor-pointer text-[#F79806] active:scale-105 ${scrollDirection === 'down' ? 'disabled:' : ''}`} />
         </a>
-      </div>
+      
     </div>
   )
 }

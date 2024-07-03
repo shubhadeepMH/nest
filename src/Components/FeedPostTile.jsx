@@ -25,7 +25,7 @@ showPostModal
     // Toggling Post Modal
     let togglePostModal=()=>{
         setShowPostModal(!showPostModal)
-        console.log(!showPostModal)
+       
     }
     const truncatedText = content.length > 200 ? `${content.slice(0, 200)}` : content;
 
@@ -33,7 +33,7 @@ showPostModal
     let navigate = useNavigate()
     let sharePost = async () => {
         const shareData = {
-            title: title,
+            title,
             image,
             url: window.location.href/uid
         };
@@ -126,7 +126,7 @@ showPostModal
                     <FaRegShareSquare onClick={sharePost} className='h-6 w-6 text-blue-600' />
                 </div>
 
-               {showPostModal && <PostModal name={name} date={date} title={title} content={content} image={image} comments={comments} sharePost={sharePost} togglePostModal={togglePostModal} uid={uid}/>}
+               {showPostModal && <PostModal  togglePostModal={togglePostModal} uid={uid}/>}
             </div>
         </div>
     )

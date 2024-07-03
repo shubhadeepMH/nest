@@ -28,13 +28,13 @@ function LeftSideBar({togglePosting,postPossible}) {
                     <div className='ml-3  '>
                     <a href="/feed#post">
                        {postPossible && <div onClick={()=>togglePosting()} className='flex items-center m-2 space-x-2 p-2 cursor-pointer hover:bg-slate-600 rounded-xl'>
-                            <IoAddCircle className='h-[2rem] w-[2rem] text-blue-400 active:scale-105 ' />
+                            <IoAddCircle className='h-[3rem] w-[3rem] text-blue-400 active:scale-105 ' />
                             <h1 className=' text-2xl font-extralight   text-white '>post</h1>
                         </div>}
                         </a>
                         <Link to="/trending">
-                        <div className='flex items-center p-2 space-x-2 m-2 cursor-pointer'>
-                            <GiHistogram className='h-[2rem] w-[2rem] text-blue-400' />
+                        <div className='flex items-center m-2 space-x-2 p-2 cursor-pointer hover:bg-slate-600 rounded-xl'>
+                            <GiHistogram className='h-[3rem] w-[3rem] text-blue-400' />
                             <h1 className=' text-2xl font-extralight   text-white'>trending</h1>
                         </div>
                         </Link>

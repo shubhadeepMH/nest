@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import { UserOutlined, CommentOutlined, ShareAltOutlined } from '@ant-design/icons';
 import { LuSendHorizonal } from "react-icons/lu";
 import LeftSideBar from '../Components/LeftSideBar'
@@ -7,12 +7,35 @@ import { useLocation } from 'react-router-dom'
 import { Input } from 'antd';
 
 function PostPage() {
+    let [postData,setpostData]=useState()
+
     let { state } = useLocation()
+    // console.log(state.uid)
     let [comment,setComment]=useState()
     let addComment=(e)=>{
         setComment(e.target.value)
       
     }
+
+    const fetchpostData=async()=>{
+        let data=await fetch('https://training-mocha.vercel.app/get-post', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              uid:state.uid
+            })
+          });
+          data=await data.json()
+          setpostData(data);
+    }
+
+    useEffect(()=>{
+        fetchpostData()
+      
+    })
+
 
     let postComment=async()=>{
         
@@ -27,7 +50,7 @@ function PostPage() {
             }),
         })
 
-        state.comments.unshift(comment) // Temporarily setting the comment to the array.
+        // Temporarily setting the comment to the array.
         setComment("")
     }
 
@@ -42,10 +65,10 @@ function PostPage() {
                                 <UserOutlined className="text-lg" />
 
                             </div>
-                            <h2 className='text-white font-bold'>{state.name}</h2>
+                            <h2 className='text-white font-bold'>{postData?.name}</h2>
                         </div>
                         <div className='text-blue-400'>
-                            {state.date}
+                            {postData?.date}
                         </div>
 
 
@@ -55,16 +78,16 @@ function PostPage() {
                     {/* Content */}
                     <div className='text-white ml-4'>
                         <h2 className='font-bold'>{state.title}</h2>
-                        <p>{state.content}</p>
+                        <p>{postData?.content}</p>
                     </div>
                     {/* image or video */}
                     <div className='p-3 '>
                         {
-                            state.image && (state.image.includes('png') || state.image.includes('jpeg') || state.image.includes("jpg")) && <img className='scale-y-90 rounded-lg' src={state.image} />
+                            postData?.fileUrl && (  postData?.fileUrl.includes('png') || postData?.fileUrl.includes('jpeg') || postData?.fileUrl.includes("jpg")) && <img className='scale-y-90 rounded-lg' src={postData?.fileUrl} />
 
                         }
                         {
-                            state.image && state.image.includes('mp4') && <video  muted className='rounded-lg h-[50%]' controls autoPlay src={state.image} />
+                            postData?.fileUrl && postData?.fileUrl.includes('mp4') && <video  muted className='rounded-lg h-[50%]' controls autoPlay src={postData?.fileUrl} />
 
                         }
                     </div>
@@ -84,7 +107,7 @@ function PostPage() {
                         <div>
 
                             {
-                                state.comments.map((comment) => {
+                                postData?.comments.map((comment) => {
                                     return (
                                         <div>
                                             <div className='flex items-center space-x-1 p-1'>
