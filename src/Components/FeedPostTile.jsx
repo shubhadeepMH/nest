@@ -32,10 +32,11 @@ showPostModal
 
     let navigate = useNavigate()
     let sharePost = async () => {
+        console.log(window.location.href+"/"+uid)
         const shareData = {
-            title,
-            image,
-            url: window.location.href/uid
+            title:title,
+            image:image,
+            url: window.location.href+"/"+uid
         };
         if (navigator.share) {
             try {
