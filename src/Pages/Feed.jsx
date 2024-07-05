@@ -365,7 +365,7 @@ function Feed() {
               </div>
             );
           }) : (
-            <div className=' w-full bg-black h-screen'>
+           <div className=' w-full bg-black h-screen'>
               <h1 className='text-blue-500 font-extrabold text-[2.5rem]md:font-light text-center mt-[28rem] md:mt-[20rem]'>3rdoor...</h1>
 
             </div>

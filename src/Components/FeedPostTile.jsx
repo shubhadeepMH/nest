@@ -79,6 +79,17 @@ showPostModal
         
     }
 
+    const handleCommentClick=()=>{
+        if (width < 768) {
+            navigate('/post/' + uid, { state: dataToSend })
+            dispatch(setScrollPosition(window.pageYOffset || document.documentElement.scrollTop));
+    
+        }else{
+
+            togglePostModal()
+        }
+    }
+
     return (
         <div className=' border-b border-slate-300 bg-black py-2 px-1 cursor-pointer'>
             {/* Header */}
@@ -122,7 +133,7 @@ showPostModal
                 }
             </div>
             <div className=' border-gray-300 border-t flex justify-around items-center mt-2'>
-                <div onClick={() => navigate('/post/' + uid, { state: dataToSend })} className='flex items-center space-x-2 p-1'>
+                <div onClick={handleCommentClick} className='flex items-center space-x-2 p-1'>
                     <FaRegComments className='h-6 w-6 text-blue-600' />
                     <p className='text-blue-600'>{comments?.length}</p>
                 </div>
@@ -130,7 +141,7 @@ showPostModal
                     <FaRegShareSquare onClick={sharePost} className='h-6 w-6 text-blue-600' />
                 </div>
 
-               {showPostModal && <PostModal  togglePostModal={togglePostModal} uid={uid}/>}
+               {showPostModal && <PostModal  togglePostModal={togglePostModal} sharePost={sharePost} uid={uid}/>}
             </div>
         </div>
     )

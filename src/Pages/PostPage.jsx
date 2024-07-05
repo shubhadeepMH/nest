@@ -5,9 +5,11 @@ import LeftSideBar from '../Components/LeftSideBar'
 import RightSideBar from '../Components/RightSideBar'
 import { useLocation } from 'react-router-dom'
 import { Input } from 'antd';
+import formattedDateTime from '../Utils/DateFormatter';
 
 function PostPage() {
     let [postData,setpostData]=useState()
+    let [date,setDate]=useState()
 
     let { state } = useLocation()
     // console.log(state.uid)
@@ -29,6 +31,10 @@ function PostPage() {
           });
           data=await data.json()
           setpostData(data);
+          let getDate=formattedDateTime(postData?.date)
+
+          setDate(getDate)
+          
     }
 
     useEffect(()=>{
@@ -68,7 +74,7 @@ function PostPage() {
                             <h2 className='text-white font-bold'>{postData?.name}</h2>
                         </div>
                         <div className='text-blue-400'>
-                            {postData?.date}
+                            {date}
                         </div>
 
 
