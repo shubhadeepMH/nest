@@ -34,8 +34,10 @@ function Feed() {
 
   let navigate = useNavigate()
   let dispatch=useDispatch()
+  let storage = getStorage(app);
 
   const postsData = useSelector((state) => state.posts.posts)
+  
   const scrollPosition = useSelector((state) => state.posts.scrollPosition)
   const isLoaded = useSelector((state) => state.posts.isLoaded) //Flag for loading the posts or not
   
@@ -57,6 +59,10 @@ function Feed() {
     return shortId;
   };
 
+  useEffect(() => {
+    setPosts(postsData);
+  }, [postsData]); 
+
   // Adding Hashtag Functions
 
   let addHashTags = () => {
@@ -69,7 +75,7 @@ function Feed() {
   // Adding Post
 
   let addPost=async()=>{
-    if (title && content) {
+   
       try {
         // Generate unique ID
         const id = generateUniqueId();
@@ -108,20 +114,15 @@ function Feed() {
               })
             });
             const responseData = await uploadResp.json();
-            // Playing Audio
-            // const audioPlay = new Audio(audio);
-            // audioPlay.volume = 1.0
-            // audioPlay.play()
-            //   .then(() => {
-            //     message.success('Post uploaded successfully');
-            //   })
-            //   .catch(error => console.error('Error playing audio:', error));
-            let postArr=posts;
+           
+         
+            let postArr=[...postsData];
+          
             postArr.unshift({
               title,
               content,
-              fileUrl: downloadUrl,
               hashTags,
+              fileUrl: downloadUrl,
               uniqueId: id,
               date:Date.now()
             })
@@ -149,16 +150,9 @@ function Feed() {
           });
           const responseData = await uploadResp.json();
 
-          // // Playing Audio
-          // const audioPlay = new Audio(audio);
-          // audioPlay.volume = 1.0
-          // audioPlay.play()
-          //   .then(() => {
-
-          //     message.success('Post uploaded successfully');
-          //   })
-          //   .catch(error => console.error('Error playing audio:', error));
-          let postArr=posts;
+        
+          let postArr=[...postsData];
+          
           postArr.unshift({
             title,
             content,
@@ -185,9 +179,7 @@ function Feed() {
         console.error('Error uploading post:', error);
         message.error('Failed to upload post. Please try again.');
       }
-    } else {
-      message.error('Please Add Title and Content');
-    }
+    
 
   }
 
@@ -346,7 +338,7 @@ function Feed() {
 
             </div>
           </section>}
-          {postsData ? postsData.map((post, index) => {
+          {posts ? posts.map((post, index) => {
             let date = formattedDateTime(post.date);
             return (
               <div key={post.uniqueId}>
